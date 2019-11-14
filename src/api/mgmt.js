@@ -15,16 +15,13 @@ class EnigmaManagementAPI {
     this.bearerToken = base64.encode(`${apiKeyId}:${apiKeySecret}`);
   }
 
-  getEndUsers() {
-    return new Promise((resolve, reject) => {
-      const url = `${MGMT_API_ENDPOINT}/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user`;
-      fetch(url, { headers: { 'Authorization': 'Basic ' + this.bearerToken } })
-      .then(resp => resp.json())
-      .then(json => {
-        debug(json);
-        resolve(json.endUsers);
-      });
-    });
+  async getEndUsers() {
+    const url = `${MGMT_API_ENDPOINT}/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user`;
+    const resp = await fetch(url, { headers: { 'Authorization': 'Basic ' + this.bearerToken } });
+    const json = await resp.json();
+    debug(json.totalCount);
+    
+    return json.endUsers;
   }
 }
 
