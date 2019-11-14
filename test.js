@@ -2,9 +2,11 @@ const ManagementAPI = require("./index.js")("mgmt");
 
 const mgmtApi = new ManagementAPI("Eyevinn", "STSWE");
 
-async function run() {
+async function go() {
   const endUsers = await mgmtApi.getEndUsers();
-  console.log(endUsers);
+  endUsers.forEach(endUser => {
+    console.log(`${endUser.accountId}: ${endUser.details.emailAddress}`);
+  });
 }
 
-run();
+go();
