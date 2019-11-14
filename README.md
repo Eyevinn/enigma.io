@@ -6,6 +6,10 @@ An NPM library for integration with Red Bee Media Managed OTT platform.
 npm install enigma.io
 ```
 
+## Authentication
+
+Provide API key ID and secret with the environment variables `API_KEY_ID` and `API_KEY_SECRET`.
+
 ## API
 
 ### `mgmtApi.getEndUsers()`
