@@ -17,11 +17,19 @@ class EnigmaManagementAPI {
 
   async getEndUsers() {
     const url = `${MGMT_API_ENDPOINT}/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user`;
-    const resp = await fetch(url, { headers: { 'Authorization': 'Basic ' + this.bearerToken } });
-    const json = await resp.json();
-    debug(json.totalCount);
-    
-    return json.endUsers;
+    let records = [];
+    let keepGoing = true;
+    let page = 1;
+    while (keepGoing) {
+      let resp = await fetch(url + `?pageNumber=${page}`, { headers: { 'Authorization': 'Basic ' + this.bearerToken } });
+      let json = await resp.json();
+      await records.push.apply(records, json.endUsers);
+      page += 1;
+      if (json.endUsers.length === 0) {
+        keepGoing = false;
+        return records;
+      }
+    }
   }
 }
 
