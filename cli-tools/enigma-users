@@ -14,7 +14,8 @@ try {
     [ "h", "help", "Display this help" ]
   ]);
   getopt.setHelp("Usage: enigma-users [OPTION] command\n" + 
-    "list - List all users\n" + 
+    "list\t\tList all users\n" + 
+    "offerings\t\tList all available offerings\n" +
     "[[OPTIONS]]\n\n" +
     "Examples:\n" +
     "  List all users:\n    enigma-users -c CU -b BU list"
@@ -48,6 +49,10 @@ try {
     case 'LIST':
       listAllUsers(mgmtApi, options.limit);
       break;
+    case 'offerings':
+    case 'OFFERINGS':
+      listAllOfferings(mgmtApi);
+      break;
   }
 } catch (errObj) {
   console.error(errObj);
@@ -63,5 +68,21 @@ async function listAllUsers(api, limit = undefined) {
     });
   } catch (errorMessage) {
     console.error("Failed to list users: " + errorMessage);
+  }
+}
+
+async function listAllOfferings(api) {
+  try {
+    const offerings = await api.getProductOfferings();
+    offerings.forEach(offering => {
+      let name = offering.localizedMetadata[0].name;
+      console.log(`${name} (${offering.productOfferingId}):`);
+      console.log(`  Sales start: ${offering.salesStart}`);
+      offering.productIds.forEach(productId => {
+        console.log(`  - ${productId}`);
+      });
+    });
+  } catch (errorMessage) {
+    console.error("Failed to get offerings: " + errorMessage);
   }
 }
