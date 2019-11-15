@@ -67,7 +67,21 @@ try {
       if (!options.bulk && !email) {
         throw "Must provide email";
       }
-      performPurchase(mgmtApi, offeringId, email);
+      if (options.bulk) {
+        const readline = require('readline');
+        const rl = readline.createInterface({
+          input: process.stdin
+        });
+        rl.on('line', line => {
+          let email = line;
+          // TODO should validate email
+          if (email) {
+            performPurchase(mgmtApi, offeringId, email);
+          }
+        });
+      } else {
+        performPurchase(mgmtApi, offeringId, email);
+      }
       break;
   }
 } catch (errObj) {
@@ -107,12 +121,11 @@ async function performPurchase(api, offeringId, email) {
   try {
     let user = await api.getEndUser(email);
     let purchases = await api.getPurchases(user.accountId);
-    debug(purchases);
     if (purchases.find(purchase => purchase.productOfferingId === offeringId)) {
       throw `${email} has already purchased offering with ID ${offeringId}`;
     } else {
       let purchase = await api.performPurchase(user.accountId, offeringId);
-      console.log(`Succesfully performed purchase (Account ID=${user.accountId}, Purchase ID=${purchase.purchaseId}, Transaction ID=${purchase.transactionId})`);
+      console.log(`Succesfully performed purchase for ${email} (Account ID=${user.accountId}, Purchase ID=${purchase.purchaseId}, Transaction ID=${purchase.transactionId})`);
     }
   } catch (errorMessage) {
     console.error("Failed to perform purchase: " + errorMessage);
