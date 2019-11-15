@@ -28,7 +28,11 @@ const getUser = async ({ url, bearerToken }) => {
     headers: { Authorization: `Basic ${bearerToken}` }
   });
   const user = await response.json();
-  return user;
+  if (response.ok) {
+    return user;
+  } else {
+    throw user.message;
+  }
 };
 
 const getPurchases = async({ url, bearerToken }) => {
