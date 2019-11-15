@@ -1,0 +1,67 @@
+#!/usr/bin/env node
+
+const GetOpt = require('node-getopt');
+const debug = require('debug')('enigma-cli-users');
+
+const ManagementAPI = require("../index.js")("mgmt");
+
+
+try {
+  const getopt = new GetOpt([
+    [ "c", "cu=ARG", "customer unit" ],
+    [ "b", "bu=ARG", "business unit" ],
+    [ "",  "limit=N", "limit list output to N rows"],
+    [ "h", "help", "Display this help" ]
+  ]);
+  getopt.setHelp("Usage: enigma-users [OPTION] command\n" + 
+    "list - List all users\n" + 
+    "[[OPTIONS]]\n\n" +
+    "Examples:\n" +
+    "  List all users:\n    enigma-users -c CU -b BU list"
+  );
+  getopt.bindHelp();
+
+  const opts = getopt.parseSystem();
+  const options = opts.options;
+
+  const cmd = opts.argv[0];
+  if (!cmd) {
+    getopt.showHelp();
+    process.exit(1);
+  }
+
+  if (!process.env.API_KEY_ID && !process.env.API_KEY_SECRET) {
+    console.error("Must set environment variables API_KEY_ID and API_KEY_SECRET");
+    process.exit(2);
+  }
+
+  if (!options.cu) {
+    throw "Must provide customer unit argument";
+  }
+  if (!options.bu) {
+    throw "Must provide business unit argument";
+  }
+  const mgmtApi = new ManagementAPI(options.cu, options.bu);
+
+  switch (cmd) {
+    case 'list':
+    case 'LIST':
+      listAllUsers(mgmtApi, options.limit);
+      break;
+  }
+} catch (errObj) {
+  console.error(errObj);
+  process.exit(3);
+}
+
+async function listAllUsers(api, limit = undefined) {
+  try {
+    const endUsers = await api.getEndUsers(limit);
+    console.log("#AccountId\tEmailAddress\tCreated");
+    endUsers.forEach(endUser => {
+      console.log(`${endUser.accountId}\t${endUser.details.emailAddress}\t${endUser.created}`);
+    });
+  } catch (errorMessage) {
+    console.error("Failed to list users: " + errorMessage);
+  }
+}

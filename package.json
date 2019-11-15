@@ -6,12 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "enigma-users": "./cli-tools/enigma-users"
+  },
   "author": "devel@eyevinn.se",
   "license": "MIT",
   "dependencies": {
     "base-64": "^0.1.0",
     "debug": "^4.1.1",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "node-getopt": "^0.3.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.0",
