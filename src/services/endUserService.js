@@ -36,7 +36,11 @@ const getPurchases = async({ url, bearerToken }) => {
     headers: { Authorization: `Basic ${bearerToken}` }
   });
   const purchases = await response.json();
-  return purchases;
+  if (response.ok) {
+    return purchases;
+  } else {
+    throw purchases.message;
+  }
 };
 
 module.exports = {
