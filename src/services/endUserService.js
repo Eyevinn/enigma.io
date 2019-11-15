@@ -31,7 +31,16 @@ const getUser = async ({ url, bearerToken }) => {
   return user;
 };
 
+const getPurchases = async({ url, bearerToken }) => {
+  const response = await fetch(url, {
+    headers: { Authorization: `Basic ${bearerToken}` }
+  });
+  const purchases = await response.json();
+  return purchases;
+};
+
 module.exports = {
   getUsers,
-  getUser
+  getUser,
+  getPurchases,
 };

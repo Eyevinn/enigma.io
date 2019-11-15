@@ -10,15 +10,19 @@ try {
   const getopt = new GetOpt([
     [ "c", "cu=ARG", "customer unit" ],
     [ "b", "bu=ARG", "business unit" ],
-    [ "",  "limit=N", "limit list output to N rows"],
+    [ "",  "limit=N", "limit list output to N rows" ],
+    [ "",  "bulk", "perform bulk operation by reading emails in newline delimited input from STDIN" ],
     [ "h", "help", "Display this help" ]
   ]);
   getopt.setHelp("Usage: enigma-users [OPTION] command\n" + 
     "list\t\tList all users\n" + 
     "offerings\t\tList all available offerings\n" +
+    "purchase\t\tAdd a product offering to an account\n" + 
     "[[OPTIONS]]\n\n" +
     "Examples:\n" +
-    "  List all users:\n    enigma-users -c CU -b BU list"
+    "  List all users:\n    enigma-users -c CU -b BU list\n" +
+    "  Add a product offering on an account:\n    enigma-users -c CU -b BU purchase OFFERINGID EMAIL\n" +
+    "  Add a product offering to a bulk of accounts:\n    enigma-users -c CU -b BU --bulk purchase OFFERINGID < users.txt"
   );
   getopt.bindHelp();
 
@@ -53,6 +57,18 @@ try {
     case 'OFFERINGS':
       listAllOfferings(mgmtApi);
       break;
+    case 'purchase':
+    case 'PURCHASE':
+      let offeringId = opts.argv[1];
+      let email = opts.argv[2];
+      if (!offeringId) {
+        throw "Must provide offering ID";
+      }
+      if (!options.bulk && !email) {
+        throw "Must provide email";
+      }
+      performPurchase(mgmtApi, offeringId, email);
+      break;
   }
 } catch (errObj) {
   console.error(errObj);
@@ -84,5 +100,21 @@ async function listAllOfferings(api) {
     });
   } catch (errorMessage) {
     console.error("Failed to get offerings: " + errorMessage);
+  }
+}
+
+async function performPurchase(api, offeringId, email) {
+  try {
+    let user = await api.getEndUser(email);
+    let purchases = await api.getPurchases(user.accountId);
+    debug(purchases);
+    if (purchases.find(purchase => purchase.productOfferingId === offeringId)) {
+      throw `${email} has already purchased offering with ID ${offeringId}`;
+    } else {
+      let purchase = await api.performPurchase(user.accountId, offeringId);
+      console.log(`Succesfully performed purchase (Account ID=${user.accountId}, Purchase ID=${purchase.purchaseId}, Transaction ID=${purchase.transactionId})`);
+    }
+  } catch (errorMessage) {
+    console.error("Failed to perform purchase: " + errorMessage);
   }
 }

@@ -47,6 +47,24 @@ class EnigmaManagementAPI {
       bearerToken: this.bearerToken
     });
   }
+
+  async getPurchases(accountId) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${MGMT_API_ENDPOINT}/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}/purchase`;
+    return await endUserService.getPurchases({
+      url,
+      bearerToken: this.bearerToken
+    });  
+  }
+
+  async performPurchase(accountId, offeringId) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${MGMT_API_ENDPOINT}/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}/purchase/${offeringId}`;
+    return await productOfferingsService.performPurchase({
+      url,
+      bearerToken: this.bearerToken
+    });
+  }
 }
 
 module.exports = EnigmaManagementAPI;
