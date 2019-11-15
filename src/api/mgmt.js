@@ -20,7 +20,7 @@ class EnigmaManagementAPI {
   }
 
   async getEndUsers() {
-    if (!this.bearerToken) return;
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     const url = `${MGMT_API_ENDPOINT}/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user`;
     return await endUserService.getUsers({
       url,
@@ -29,7 +29,7 @@ class EnigmaManagementAPI {
   }
 
   async getEndUser(username) {
-    if (!this.bearerToken) return;
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     const url = `${MGMT_API_ENDPOINT}/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user/${username}`;
     return await endUserService.getUser({
       url,
