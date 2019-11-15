@@ -12,6 +12,7 @@
   "author": "devel@eyevinn.se",
   "license": "MIT",
   "dependencies": {
+    "async-sema": "^3.0.1",
     "base-64": "^0.1.0",
     "debug": "^4.1.1",
     "node-fetch": "^2.6.0",

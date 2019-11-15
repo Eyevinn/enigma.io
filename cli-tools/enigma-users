@@ -2,6 +2,7 @@
 
 const GetOpt = require('node-getopt');
 const debug = require('debug')('enigma-cli-users');
+const { RateLimit } = require('async-sema');
 
 const ManagementAPI = require("../index.js")("mgmt");
 
@@ -36,7 +37,7 @@ try {
   }
 
   if (!process.env.API_KEY_ID && !process.env.API_KEY_SECRET) {
-    console.error("Must set environment variables API_KEY_ID and API_KEY_SECRET");
+    console.log("Must set environment variables API_KEY_ID and API_KEY_SECRET");
     process.exit(2);
   }
 
@@ -72,10 +73,12 @@ try {
         const rl = readline.createInterface({
           input: process.stdin
         });
-        rl.on('line', line => {
+        rl.on('line', async line => {
           let email = line;
           // TODO should validate email
           if (email) {
+            const lim = RateLimit(1);
+            await lim();
             performPurchase(mgmtApi, offeringId, email);
           }
         });
@@ -85,7 +88,7 @@ try {
       break;
   }
 } catch (errObj) {
-  console.error(errObj);
+  console.log(errObj);
   process.exit(3);
 }
 
@@ -97,7 +100,7 @@ async function listAllUsers(api, limit = undefined) {
       console.log(`${endUser.accountId}\t${endUser.details.emailAddress}\t${endUser.created}`);
     });
   } catch (errorMessage) {
-    console.error("Failed to list users: " + errorMessage);
+    console.log("Failed to list users: " + errorMessage);
   }
 }
 
@@ -113,7 +116,7 @@ async function listAllOfferings(api) {
       });
     });
   } catch (errorMessage) {
-    console.error("Failed to get offerings: " + errorMessage);
+    console.log("Failed to get offerings: " + errorMessage);
   }
 }
 
@@ -128,6 +131,6 @@ async function performPurchase(api, offeringId, email) {
       console.log(`Succesfully performed purchase for ${email} (Account ID=${user.accountId}, Purchase ID=${purchase.purchaseId}, Transaction ID=${purchase.transactionId})`);
     }
   } catch (errorMessage) {
-    console.error("Failed to perform purchase: " + errorMessage);
+    console.log(`Failed to perform purchase for ${email}: ` + errorMessage);
   }
 }
