@@ -1,6 +1,7 @@
 const debug = require("debug")("mgmt");
-const fetch = require("node-fetch");
 const base64 = require("base-64");
+
+const endUserService = require("../services/endUserService");
 
 const MGMT_API_ENDPOINT = "https://managementapi.emp.ebsd.ericsson.net/v2";
 const apiKeyId = process.env.API_KEY_ID;
@@ -12,26 +13,28 @@ class EnigmaManagementAPI {
     this.customerUnit = customerUnit;
     this.businessUnit = businessUnit;
 
-    this.bearerToken = base64.encode(`${apiKeyId}:${apiKeySecret}`);
+    this.bearerToken =
+      apiKeyId && apiKeySecret
+        ? base64.encode(`${apiKeyId}:${apiKeySecret}`)
+        : null;
   }
 
   async getEndUsers() {
+    if (!this.bearerToken) return;
     const url = `${MGMT_API_ENDPOINT}/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user`;
-    let records = [];
-    let keepGoing = true;
-    let page = 1;
-    while (keepGoing) {
-      let resp = await fetch(url + `?pageNumber=${page}`, {
-        headers: { Authorization: "Basic " + this.bearerToken }
-      });
-      let json = await resp.json();
-      await records.push.apply(records, json.endUsers);
-      page += 1;
-      if (json.endUsers.length === 0) {
-        keepGoing = false;
-        return records;
-      }
-    }
+    return await endUserService.getUsers({
+      url,
+      bearerToken: this.bearerToken
+    });
+  }
+
+  async getEndUser(username) {
+    if (!this.bearerToken) return;
+    const url = `${MGMT_API_ENDPOINT}/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user/${username}`;
+    return await endUserService.getUser({
+      url,
+      bearerToken: this.bearerToken
+    });
   }
 }
 
