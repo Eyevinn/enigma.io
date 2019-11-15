@@ -16,6 +16,13 @@ Provide API key ID and secret with the environment variables `API_KEY_ID` and `A
 
 Retrieve a list of end users.
 
+```
+const ManagementAPI = require('enigma.io')('mgmt');
+const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
+const endUsers = await mgmtApi.getEndUsers();
+console.log(endUsers);
+```
+
 ### `mgmtApi.getProductOfferings()`
 
 Get product offerings.
@@ -27,11 +34,4 @@ Get end user account's active purchases.
 ### `mgmtApi.performPurchase(accountId, offeringId)`
 
 Add a product offering to an account.
-
-```
-const ManagementAPI = require('enigma.io')('mgmt');
-const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
-const endUsers = await mgmtApi.getEndUsers();
-console.log(endUsers);
-```
 
