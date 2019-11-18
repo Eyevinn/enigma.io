@@ -18,7 +18,7 @@ const authenticate = async ({ url, username, password }) => {
     },
     device: {
       deviceId: deviceId,
-      name: "enigma.io CLI"
+      name: "enigma.io SDK"
     }
   };
   debug(authRequest);
