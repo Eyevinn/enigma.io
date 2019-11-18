@@ -3,7 +3,8 @@
 
 function setup(api) {
   const APIs = {
-    mgmt: "./src/api/mgmt.js"
+    mgmt: "./src/api/mgmt.js",
+    exposure: "./src/api/exposure.js"
   };
   const sdk = require(APIs[api]);
   return sdk;
