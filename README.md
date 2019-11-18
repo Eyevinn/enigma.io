@@ -35,3 +35,6 @@ Get end user account's active purchases.
 
 Add a product offering to an account.
 
+### `exposureApi.authenticate(username, password)`
+
+Get an authentication response for a user.
