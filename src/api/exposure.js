@@ -1,4 +1,4 @@
-const debug = require("debug")("mgmt");
+//const debug = require("debug")("mgmt");
 
 const EXPOSURE_API_ENDPOINT = "https://exposureapi.emp.ebsd.ericsson.net/v2";
 
