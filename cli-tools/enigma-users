@@ -1,29 +1,33 @@
 #!/usr/bin/env node
 
-const GetOpt = require('node-getopt');
-const debug = require('debug')('enigma-cli-users');
-const { RateLimit } = require('async-sema');
+const GetOpt = require("node-getopt");
+//const debug = require("debug")("enigma-cli-users");
+const { RateLimit } = require("async-sema");
 
 const ManagementAPI = require("../index.js")("mgmt");
 
-
 try {
   const getopt = new GetOpt([
-    [ "c", "cu=ARG", "customer unit" ],
-    [ "b", "bu=ARG", "business unit" ],
-    [ "",  "limit=N", "limit list output to N rows" ],
-    [ "",  "bulk", "perform bulk operation by reading emails in newline delimited input from STDIN" ],
-    [ "h", "help", "Display this help" ]
+    ["c", "cu=ARG", "customer unit"],
+    ["b", "bu=ARG", "business unit"],
+    ["", "limit=N", "limit list output to N rows"],
+    [
+      "",
+      "bulk",
+      "perform bulk operation by reading emails in newline delimited input from STDIN"
+    ],
+    ["h", "help", "Display this help"]
   ]);
-  getopt.setHelp("Usage: enigma-users [OPTION] command\n" + 
-    "list\t\tList all users\n" + 
-    "offerings\t\tList all available offerings\n" +
-    "purchase\t\tAdd a product offering to an account\n" + 
-    "[[OPTIONS]]\n\n" +
-    "Examples:\n" +
-    "  List all users:\n    enigma-users -c CU -b BU list\n" +
-    "  Add a product offering on an account:\n    enigma-users -c CU -b BU purchase OFFERINGID EMAIL\n" +
-    "  Add a product offering to a bulk of accounts:\n    enigma-users -c CU -b BU --bulk purchase OFFERINGID < users.txt"
+  getopt.setHelp(
+    "Usage: enigma-users [OPTION] command\n" +
+      "list\t\tList all users\n" +
+      "offerings\t\tList all available offerings\n" +
+      "purchase\t\tAdd a product offering to an account\n" +
+      "[[OPTIONS]]\n\n" +
+      "Examples:\n" +
+      "  List all users:\n    enigma-users -c CU -b BU list\n" +
+      "  Add a product offering on an account:\n    enigma-users -c CU -b BU purchase OFFERINGID EMAIL\n" +
+      "  Add a product offering to a bulk of accounts:\n    enigma-users -c CU -b BU --bulk purchase OFFERINGID < users.txt"
   );
   getopt.bindHelp();
 
@@ -48,20 +52,22 @@ try {
     throw "Must provide business unit argument";
   }
   const mgmtApi = new ManagementAPI(options.cu, options.bu);
+  let offeringId;
+  let email;
 
   switch (cmd) {
-    case 'list':
-    case 'LIST':
+    case "list":
+    case "LIST":
       listAllUsers(mgmtApi, options.limit);
       break;
-    case 'offerings':
-    case 'OFFERINGS':
+    case "offerings":
+    case "OFFERINGS":
       listAllOfferings(mgmtApi);
       break;
-    case 'purchase':
-    case 'PURCHASE':
-      let offeringId = opts.argv[1];
-      let email = opts.argv[2];
+    case "purchase":
+    case "PURCHASE":
+      offeringId = opts.argv[1];
+      email = opts.argv[2];
       if (!offeringId) {
         throw "Must provide offering ID";
       }
@@ -69,11 +75,11 @@ try {
         throw "Must provide email";
       }
       if (options.bulk) {
-        const readline = require('readline');
+        const readline = require("readline");
         const rl = readline.createInterface({
           input: process.stdin
         });
-        rl.on('line', async line => {
+        rl.on("line", async line => {
           let email = line;
           // TODO should validate email
           if (email) {
@@ -97,7 +103,9 @@ async function listAllUsers(api, limit = undefined) {
     const endUsers = await api.getEndUsers(limit);
     console.log("#AccountId\tEmailAddress\tCreated");
     endUsers.forEach(endUser => {
-      console.log(`${endUser.accountId}\t${endUser.details.emailAddress}\t${endUser.created}`);
+      console.log(
+        `${endUser.accountId}\t${endUser.details.emailAddress}\t${endUser.created}`
+      );
     });
   } catch (errorMessage) {
     console.log("Failed to list users: " + errorMessage);
@@ -128,7 +136,9 @@ async function performPurchase(api, offeringId, email) {
       throw `${email} has already purchased offering with ID ${offeringId}`;
     } else {
       let purchase = await api.performPurchase(user.accountId, offeringId);
-      console.log(`Succesfully performed purchase for ${email} (Account ID=${user.accountId}, Purchase ID=${purchase.purchaseId}, Transaction ID=${purchase.transactionId})`);
+      console.log(
+        `Succesfully performed purchase for ${email} (Account ID=${user.accountId}, Purchase ID=${purchase.purchaseId}, Transaction ID=${purchase.transactionId})`
+      );
     }
   } catch (errorMessage) {
     console.log(`Failed to perform purchase for ${email}: ` + errorMessage);
