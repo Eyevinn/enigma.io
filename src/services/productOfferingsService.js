@@ -1,5 +1,4 @@
 const fetch = require("node-fetch");
-const debug = require("debug")("product-offerings-service");
 
 const getOfferings = async ({ url, bearerToken }) => {
   let records = [];
@@ -17,7 +16,7 @@ const getOfferings = async ({ url, bearerToken }) => {
 
 const performPurchase = async ({ url, bearerToken }) => {
   let response = await fetch(url, {
-    method: 'POST',
+    method: "POST",
     headers: { Authorization: `Basic ${bearerToken}` }
   });
   let json = await response.json();

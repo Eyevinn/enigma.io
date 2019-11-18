@@ -1,14 +1,17 @@
 const fetch = require("node-fetch");
-const debug = require("debug")("end-user-service");
 
 const getUsers = async ({ url, bearerToken, limit = undefined }) => {
   let records = [];
   let keepGoing = true;
   let page = 1;
   while (keepGoing) {
-    let response = await fetch(`${url}?pageNumber=${page}` + (limit ? `&pageSize=${(limit < 100 ? limit : 100)}` : ''), {
-      headers: { Authorization: `Basic ${bearerToken}` }
-    });
+    let response = await fetch(
+      `${url}?pageNumber=${page}` +
+        (limit ? `&pageSize=${limit < 100 ? limit : 100}` : ""),
+      {
+        headers: { Authorization: `Basic ${bearerToken}` }
+      }
+    );
     let json = await response.json();
     if (response.ok) {
       await records.push.apply(records, json.endUsers);
@@ -35,7 +38,7 @@ const getUser = async ({ url, bearerToken }) => {
   }
 };
 
-const getPurchases = async({ url, bearerToken }) => {
+const getPurchases = async ({ url, bearerToken }) => {
   const response = await fetch(url, {
     headers: { Authorization: `Basic ${bearerToken}` }
   });
@@ -50,5 +53,5 @@ const getPurchases = async({ url, bearerToken }) => {
 module.exports = {
   getUsers,
   getUser,
-  getPurchases,
+  getPurchases
 };
