@@ -5,6 +5,7 @@ const GetOpt = require("node-getopt");
 const { RateLimit } = require("async-sema");
 
 const ManagementAPI = require("../index.js")("mgmt");
+const ExposureAPI = require("../index.js")("exposure");
 
 try {
   const getopt = new GetOpt([
@@ -20,14 +21,16 @@ try {
   ]);
   getopt.setHelp(
     "Usage: enigma-users [OPTION] command\n" +
+      "auth\t\tAuthenticate and obtain a session token\n" +
       "list\t\tList all users\n" +
-      "offerings\t\tList all available offerings\n" +
-      "purchase\t\tAdd a product offering to an account\n" +
+      "offerings\tList all available offerings\n" +
+      "purchase\tAdd a product offering to an account\n" +
       "[[OPTIONS]]\n\n" +
       "Examples:\n" +
       "  List all users:\n    enigma-users -c CU -b BU list\n" +
       "  Add a product offering on an account:\n    enigma-users -c CU -b BU purchase OFFERINGID EMAIL\n" +
-      "  Add a product offering to a bulk of accounts:\n    enigma-users -c CU -b BU --bulk purchase OFFERINGID < users.txt"
+      "  Add a product offering to a bulk of accounts:\n    enigma-users -c CU -b BU --bulk purchase OFFERINGID < users.txt\n" +
+      "  Obtain a session token for a user:\n    enigma-users -c CU -b BU auth EMAIL PASSWORD"
   );
   getopt.bindHelp();
 
@@ -52,8 +55,10 @@ try {
     throw "Must provide business unit argument";
   }
   const mgmtApi = new ManagementAPI(options.cu, options.bu);
+  const exposureApi = new ExposureAPI(options.cu, options.bu);
   let offeringId;
   let email;
+  let password;
 
   switch (cmd) {
     case "list":
@@ -91,6 +96,15 @@ try {
       } else {
         performPurchase(mgmtApi, offeringId, email);
       }
+      break;
+    case "auth":
+    case "AUTH":
+      email = opts.argv[1];
+      password = opts.argv[2];
+      if (!email || !password) {
+        throw "Username and password must be provided";
+      }
+      authenticate(exposureApi, email, password);
       break;
   }
 } catch (errObj) {
@@ -142,5 +156,14 @@ async function performPurchase(api, offeringId, email) {
     }
   } catch (errorMessage) {
     console.log(`Failed to perform purchase for ${email}: ` + errorMessage);
+  }
+}
+
+async function authenticate(api, username, password) {
+  try {
+    let authResponse = await api.authenticate(username, password);
+    console.log(authResponse.sessionToken);
+  } catch (errorMessage) {
+    console.log(`Failed to authenticate ${username}: ` + errorMessage);
   }
 }
