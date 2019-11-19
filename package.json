@@ -4,7 +4,9 @@
   "description": "NPM library for integration with Red Bee Media Managed OTT APIs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test-watch": "jest --watch",
+    "coverage": "jest --coverage"
   },
   "bin": {
     "enigma-users": "./cli-tools/enigma-users"
@@ -15,6 +17,7 @@
     "async-sema": "^3.0.1",
     "base-64": "^0.1.0",
     "debug": "^4.1.1",
+    "dotenv-vars": "^2.1.0",
     "node-fetch": "^2.6.0",
     "node-getopt": "^0.3.2",
     "node-machine-id": "^1.1.12",
@@ -26,6 +29,7 @@
     "@babel/preset-env": "^7.7.1",
     "@types/jest": "^24.0.23",
     "babel-eslint": "^10.0.3",
+    "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",

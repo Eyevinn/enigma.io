@@ -1,3 +1,4 @@
+require("dotenv-vars");
 /* eslint-disable */
 module.exports = {
   testMatch: ["**/tests/**/*.js?(x)"],
