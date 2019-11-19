@@ -1,0 +1,85 @@
+#!/usr/bin/env node
+
+const GetOpt = require("node-getopt");
+const debug = require("debug")("enigma-cli-assets");
+
+const ExposureAPI = require("../index.js")("exposure");
+
+try {
+  const getopt = new GetOpt([
+    ["c", "cu=ARG", "customer unit"],
+    ["b", "bu=ARG", "business unit"],
+    ["", "session=ARG", "session token"],
+    ["", "credentials=USER:PWD", "provide username and password"],
+    ["h", "help", "Display this help"]
+  ]);
+  getopt.setHelp(
+    "Usage: enigma-assets [OPTION] command\n" +
+      "play\t\tObtain playback URL for an asset\n" +
+      "[[OPTIONS]]\n\n" +
+      "Examples:\n" +
+      "  Obtain playback URL for an asset:\n    enigma-assets -c CU -b BU --session=SESSIONTOKEN play ASSETID"
+  );
+  getopt.bindHelp();
+
+  const opts = getopt.parseSystem();
+  const options = opts.options;
+
+  const cmd = opts.argv[0];
+  if (!cmd) {
+    getopt.showHelp();
+    process.exit(2);
+  }
+
+  if (!options.cu) {
+    throw "Must provide customer unit argument";
+  }
+  if (!options.bu) {
+    throw "Must provide business unit argument";
+  }
+
+  const exposureApi = new ExposureAPI(options.cu, options.bu);
+  let assetId;
+  let sessionToken = options.session;
+
+  switch (cmd) {
+    case "play":
+    case "PLAY":
+      assetId = opts.argv[1];
+      if (!assetId) {
+        throw "Must provide asset ID";
+      }
+      if (!sessionToken && !options.credentials) {
+        throw "Must provide a session token";
+      }
+      if (!sessionToken && options.credentials) {
+        const creds = options.credentials.split(":");
+        authAndPlayAsset(exposureApi, creds[0], creds[1], assetId);
+      } else {
+        playAsset(exposureApi, sessionToken, assetId);
+      }
+      break;
+  }
+} catch (errObj) {
+  console.log(errObj);
+  process.exit(1);
+}
+
+async function authAndPlayAsset(api, username, password, assetId) {
+  const authResponse = await api.authenticate(username, password);
+  return await playAsset(api, authResponse.sessionToken, assetId);
+}
+
+async function playAsset(api, sessionToken, assetId) {
+  try {
+    const playResponse = await api.play(sessionToken, assetId);
+    debug(playResponse);
+    const hlsFormat = playResponse.formats.find(a => a.format === "HLS");
+    if (!hlsFormat) {
+      throw "No HLS medialocator was found";
+    }
+    console.log(hlsFormat.mediaLocator);
+  } catch (errorMessage) {
+    console.log("Failed to obtain a playable URL: " + errorMessage);
+  }
+}
