@@ -9,7 +9,8 @@
     "coverage": "jest --coverage"
   },
   "bin": {
-    "enigma-users": "./cli-tools/enigma-users"
+    "enigma-users": "./cli-tools/enigma-users",
+    "enigma-assets": "./cli-tools/enigma-assets"
   },
   "author": "devel@eyevinn.se",
   "license": "MIT",
