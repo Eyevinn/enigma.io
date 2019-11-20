@@ -38,3 +38,10 @@ Add a product offering to an account.
 ### `exposureApi.authenticate(username, password)`
 
 Get an authentication response for a user.
+
+## Run the tests
+
+- create a `.env` file in the root of the project
+- add `API_KEY_ID` and `API_KEY_SECRET` for the Management API
+- add your `USERNAME` and `PASSWORD` to obtain session for the Exposure API
+- run `npm test`
