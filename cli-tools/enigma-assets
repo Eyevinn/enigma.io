@@ -18,7 +18,7 @@ try {
       "play\t\tObtain playback URL for an asset\n" +
       "[[OPTIONS]]\n\n" +
       "Examples:\n" +
-      "  Obtain playback URL for an asset:\n    enigma-assets -c CU -b BU --session=SESSIONTOKEN play ASSETID"
+      '  Obtain playback URL for an asset:\n    enigma-assets -c CU -b BU --session="SESSIONTOKEN" play ASSETID'
   );
   getopt.bindHelp();
 
