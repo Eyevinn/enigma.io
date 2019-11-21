@@ -16,7 +16,7 @@ const getUsers = async ({ url, bearerToken, limit = undefined }) => {
     if (response.ok) {
       await records.push.apply(records, json.endUsers);
       page += 1;
-      if (json.endUsers.length === 0 || (limit && records >= limit)) {
+      if (json.endUsers.length === 0 || (limit && records.length >= limit)) {
         keepGoing = false;
         return records;
       }
