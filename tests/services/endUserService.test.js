@@ -60,4 +60,51 @@ describe("endUserService", () => {
       expect(errorThrown).toBeTruthy();
     });
   });
+  describe("getUser", () => {
+    it("should respond with a user object", async () => {
+      if (!bearerToken || !customerUnit || !businessUnit) return;
+      const username = "erik.hoffman@eyevinn.se";
+      const url = `${MGMT_API_ENDPOINT}/customer/${customerUnit}/businessunit/${businessUnit}/enduseraccount/user/${username}`;
+      const singleUser = await endUserService.getUser({
+        url,
+        bearerToken: bearerToken
+      });
+      expect(singleUser).toBeTruthy();
+      expect(singleUser.details.username).toEqual(username);
+      expect(singleUser.customer).toEqual(customerUnit);
+      expect(singleUser.businessUnit).toEqual(businessUnit);
+    });
+
+    it("should give UNKNOWN_BUSINESS_UNIT if incorrect BU", async () => {
+      if (!bearerToken || !customerUnit || !businessUnit) return;
+      const username = "erik.hoffman@eyevinn.se";
+      const url = `${MGMT_API_ENDPOINT}/customer/${customerUnit}/businessunit/${customerUnit}/enduseraccount/user/${username}`;
+      let errorThrown = false;
+      try {
+        await endUserService.getUser({
+          url,
+          bearerToken: bearerToken
+        });
+      } catch (error) {
+        errorThrown = true;
+      }
+      expect(errorThrown).toBeTruthy();
+    });
+
+    it("should throw error for incorrect credentials", async () => {
+      if (!bearerToken || !customerUnit || !businessUnit) return;
+      const username = "erik.hoffman@eyevinn.se";
+      const url = `${MGMT_API_ENDPOINT}/customer/${customerUnit}/businessunit/${businessUnit}/enduseraccount/user/${username}`;
+      let errorThrown = false;
+      try {
+        await endUserService.getUser({
+          url,
+          bearerToken: "1234"
+        });
+      } catch (error) {
+        errorThrown = true;
+      }
+      expect(errorThrown).toBeTruthy();
+    });
+  });
 });
