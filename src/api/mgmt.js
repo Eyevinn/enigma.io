@@ -3,8 +3,9 @@ const base64 = require("base-64");
 
 const endUserService = require("../services/endUserService");
 const productOfferingsService = require("../services/productOfferingsService");
+const ingestService = require("../services/ingestService");
 
-const MGMT_API_ENDPOINT = "https://managementapi.emp.ebsd.ericsson.net/v2";
+const MGMT_API_ENDPOINT = "https://managementapi.emp.ebsd.ericsson.net";
 const apiKeyId = process.env.API_KEY_ID;
 const apiKeySecret = process.env.API_KEY_SECRET;
 
@@ -22,7 +23,7 @@ class EnigmaManagementAPI {
 
   async getEndUsers(limit = undefined) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
-    const url = `${MGMT_API_ENDPOINT}/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user`;
+    const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user`;
     return await endUserService.getUsers({
       url,
       bearerToken: this.bearerToken,
@@ -32,7 +33,7 @@ class EnigmaManagementAPI {
 
   async getEndUser(username) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
-    const url = `${MGMT_API_ENDPOINT}/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user/${username}`;
+    const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user/${username}`;
     return await endUserService.getUser({
       url,
       bearerToken: this.bearerToken
@@ -41,7 +42,7 @@ class EnigmaManagementAPI {
 
   async getProductOfferings() {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
-    const url = `${MGMT_API_ENDPOINT}/customer/${this.customerUnit}/businessunit/${this.businessUnit}/productoffering`;
+    const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/productoffering`;
     return await productOfferingsService.getOfferings({
       url,
       bearerToken: this.bearerToken
@@ -50,7 +51,7 @@ class EnigmaManagementAPI {
 
   async getPurchases(accountId) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
-    const url = `${MGMT_API_ENDPOINT}/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}/purchase`;
+    const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}/purchase`;
     return await endUserService.getPurchases({
       url,
       bearerToken: this.bearerToken
@@ -59,9 +60,19 @@ class EnigmaManagementAPI {
 
   async performPurchase(accountId, offeringId) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
-    const url = `${MGMT_API_ENDPOINT}/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}/purchase/${offeringId}`;
+    const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}/purchase/${offeringId}`;
     return await productOfferingsService.performPurchase({
       url,
+      bearerToken: this.bearerToken
+    });
+  }
+
+  async createAsset(title) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${MGMT_API_ENDPOINT}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/asset`;
+    return await ingestService.createAsset({
+      url,
+      title,
       bearerToken: this.bearerToken
     });
   }

@@ -4,6 +4,7 @@ const GetOpt = require("node-getopt");
 const debug = require("debug")("enigma-cli-assets");
 
 const ExposureAPI = require("../index.js")("exposure");
+const ManagementAPI = require("../index.js")("mgmt");
 
 try {
   const getopt = new GetOpt([
@@ -16,6 +17,7 @@ try {
   getopt.setHelp(
     "Usage: enigma-assets [OPTION] command\n" +
       "play\t\tObtain playback URL for an asset\n" +
+      "create\t\tCreate a placeholder asset with only a title\n" +
       "[[OPTIONS]]\n\n" +
       "Examples:\n" +
       '  Obtain playback URL for an asset:\n    enigma-assets -c CU -b BU --session="SESSIONTOKEN" play ASSETID'
@@ -39,7 +41,9 @@ try {
   }
 
   const exposureApi = new ExposureAPI(options.cu, options.bu);
+  const mgmtApi = new ManagementAPI(options.cu, options.bu);
   let assetId;
+  let title;
   let sessionToken = options.session;
 
   switch (cmd) {
@@ -57,6 +61,13 @@ try {
         authAndPlayAsset(exposureApi, creds[0], creds[1], assetId);
       } else {
         playAsset(exposureApi, sessionToken, assetId);
+      }
+      break;
+    case "create":
+    case "CREATE":
+      title = opts.argv[1];
+      if (title) {
+        createAsset(mgmtApi, title);
       }
       break;
   }
@@ -81,5 +92,14 @@ async function playAsset(api, sessionToken, assetId) {
     console.log(hlsFormat.mediaLocator);
   } catch (errorMessage) {
     console.log("Failed to obtain a playable URL: " + errorMessage);
+  }
+}
+
+async function createAsset(api, title) {
+  try {
+    const id = await api.createAsset(title);
+    console.log(`Created asset: ${id}`);
+  } catch (errorMessage) {
+    console.log("Failed to create asset: " + errorMessage);
   }
 }
