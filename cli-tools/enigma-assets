@@ -18,9 +18,11 @@ try {
     "Usage: enigma-assets [OPTION] command\n" +
       "play\t\tObtain playback URL for an asset\n" +
       "create\t\tCreate a placeholder asset with only a title\n" +
+      "ingest\t\tIngest video to a placeholder asset\n" +
       "[[OPTIONS]]\n\n" +
       "Examples:\n" +
-      '  Obtain playback URL for an asset:\n    enigma-assets -c CU -b BU --session="SESSIONTOKEN" play ASSETID'
+      '  Obtain playback URL for an asset:\n    enigma-assets -c CU -b BU --session="SESSIONTOKEN" play ASSETID\n' +
+      '  Upload an asset:\n    enigma-assets -c CU -b BU ingest ASSETID VIDEO-URL'
   );
   getopt.bindHelp();
 
@@ -44,6 +46,7 @@ try {
   const mgmtApi = new ManagementAPI(options.cu, options.bu);
   let assetId;
   let title;
+  let videoUrl;
   let sessionToken = options.session;
 
   switch (cmd) {
@@ -68,6 +71,18 @@ try {
       title = opts.argv[1];
       if (title) {
         createAsset(mgmtApi, title);
+      } else {
+        throw "You need to provide a title for the asset";
+      }
+      break;
+    case "ingest":
+    case "INGEST":
+      assetId = opts.argv[1];
+      videoUrl = opts.argv[2];
+      if (assetId && videoUrl) {
+        ingestVideo(mgmtApi, assetId, videoUrl);
+      } else {
+        throw "No asset ID and video URL provided";
       }
       break;
   }
@@ -101,5 +116,14 @@ async function createAsset(api, title) {
     console.log(`Created asset: ${id}`);
   } catch (errorMessage) {
     console.log("Failed to create asset: " + errorMessage);
+  }
+}
+
+async function ingestVideo(api, assetId, videoUrl) {
+  try {
+    await api.ingestVideo(assetId, videoUrl);
+    console.log(`Video ingest for asset ID ${assetId} initiated`);
+  } catch (errorMessage) {
+    console.log("Failed to ingest video: " + errorMessage);
   }
 }
