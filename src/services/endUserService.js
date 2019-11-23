@@ -38,6 +38,49 @@ const getUser = async ({ url, bearerToken }) => {
   }
 };
 
+const createUser = async ({ url, bearerToken, username, labels }) => {
+  const userObject = {
+    authenticationType: "DEFAULT",
+    referenceId: username,
+    username,
+    ...(labels && { labels })
+  };
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Basic ${bearerToken}`
+    },
+    body: JSON.stringify(userObject)
+  });
+  const user = await response.json();
+  if (response.ok) {
+    return user;
+  } else {
+    throw user.message;
+  }
+};
+
+const createUsers = async ({ url, bearerToken, users }) => {
+  const bulk = {
+    requests: users
+  };
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Basic ${bearerToken}`
+    },
+    body: JSON.stringify(bulk)
+  });
+  const user = await response.json();
+  if (response.ok) {
+    return user;
+  } else {
+    throw user.message;
+  }
+};
+
 const getPurchases = async ({ url, bearerToken }) => {
   const response = await fetch(url, {
     headers: { Authorization: `Basic ${bearerToken}` }
@@ -53,5 +96,7 @@ const getPurchases = async ({ url, bearerToken }) => {
 module.exports = {
   getUsers,
   getUser,
+  createUser,
+  createUsers,
   getPurchases
 };

@@ -40,6 +40,27 @@ class EnigmaManagementAPI {
     });
   }
 
+  async createUser(username, labels) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user`;
+    return await endUserService.createUser({
+      url,
+      bearerToken: this.bearerToken,
+      username,
+      ...(labels && { labels })
+    });
+  }
+
+  async createUsers(users) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user/bulk`;
+    return await endUserService.createUsers({
+      url,
+      bearerToken: this.bearerToken,
+      users
+    });
+  }
+
   async getProductOfferings() {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/productoffering`;
