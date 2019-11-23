@@ -1,4 +1,5 @@
 const fetch = require("node-fetch");
+const helpers = require("../utils/helpers");
 
 const getUsers = async ({ url, bearerToken, limit = undefined }) => {
   let records = [];
@@ -41,7 +42,7 @@ const getUser = async ({ url, bearerToken }) => {
 const createUser = async ({ url, bearerToken, username, labels }) => {
   const userObject = {
     authenticationType: "DEFAULT",
-    referenceId: username,
+    referenceId: username + helpers.generateId(),
     username,
     ...(labels && { labels })
   };
