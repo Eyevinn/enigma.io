@@ -26,3 +26,5 @@ jobs:
         CI: true
         USERNAME: ${{ secrets.test_username }}
         PASSWORD: ${{ secrets.test_password }}
+        API_KEY_ID: ${{ secrets.test_api_key }}
+        API_KEY_SECRET: ${{ secrets.test_api_key_secret }}
