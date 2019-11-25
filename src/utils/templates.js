@@ -5,9 +5,9 @@ const assetIngestXML = ({ id, title }) => {
      xsi:schemaLocation="http://video-metadata.emp.ebsd.ericsson.net/publish-metadata/v1/../xsd/publish-metadata.xsd">
     <data>
       <asset>
-        <id> ${id}</id>
+        <id>${id}</id>
         <titleList>
-          <title language="en" > ${title}</title >
+          <title language="en" >${title}</title>
         </titleList>
         <assetType>movie</assetType>
       </asset>
@@ -23,7 +23,7 @@ const videoIngestXML = ({ id, videoUrl, assetId }) => {
       xsi:schemaLocation="http://video-metadata.emp.ebsd.ericsson.net/publish-metadata/v1/../xsd/publish-metadata.xsd">
     <data>
       <material>
-        <id> ${id}</id>
+        <id>${id}</id>
         <materialRef>${videoUrl}</materialRef>
         <assetIdRef>${assetId}</assetIdRef>
         <DRMEnabled>false</DRMEnabled>
