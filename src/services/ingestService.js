@@ -36,8 +36,9 @@ const ingestVideo = async ({ url, assetId, videoUrl, bearerToken }) => {
     body: ingestRequestXML
   });
   const ingestResponse = await response.json();
-  if (ingestResponse.internalAssetId) {
-    return ingestResponse.internalAssetId;
+  debug(ingestResponse);
+  if (ingestResponse.internalMaterialId) {
+    return ingestResponse.internalMaterialId;
   } else {
     throw ingestResponse.message;
   }
