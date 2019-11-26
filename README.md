@@ -35,6 +35,22 @@ Get end user account's active purchases.
 
 Add a product offering to an account.
 
+### `mgmtApi.createUser(username, labels)`
+
+Create a user with labels (optional).
+
+### `mgmtApi.createUsers(users)`
+
+Create a batch of users.
+
+### `mgmtApi.createAsset(title)`
+
+Create an empty asset with title.
+
+### `mgmtApi.ingestVideo(assetId, videoUrl)`
+
+Ingest a video file to an asset. The URL to the video file must be accessible by the platform.
+
 ### `exposureApi.authenticate(username, password)`
 
 Get an authentication response for a user.
