@@ -1,11 +1,11 @@
 const authService = require("../../src/services/authService");
 
-const EXPOSURE_API_ENDPOINT = "https://bsbu.enigmatv.io/v2";
+const EXPOSURE_API_ENDPOINT = "https://exposureapi.emp.ebsd.ericsson.net/v2";
 
 describe("authService", () => {
   describe("authenticate", () => {
-    const customerUnit = "BSCU";
-    const businessUnit = "BSBU";
+    const customerUnit = "Eyevinn";
+    const businessUnit = "internal";
     let url = `${EXPOSURE_API_ENDPOINT}/customer/${customerUnit}/businessunit/${businessUnit}/auth/login`;
     const username = process.env.USERNAME;
     const password = process.env.PASSWORD;

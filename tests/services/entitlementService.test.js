@@ -1,13 +1,13 @@
 const entitlementService = require("../../src/services/entitlementService");
 const authService = require("../../src/services/authService");
 
-const EXPOSURE_API_ENDPOINT = "https://bsbu.enigmatv.io/v2";
-const ASSET = "complex_vod_enc_82162E";
+const EXPOSURE_API_ENDPOINT = "https://exposureapi.emp.ebsd.ericsson.net/v2";
+const ASSET = "51c2496e-1fff-4932-9cfb-553d4bfe104f_5F75E2";
 
 describe("entitlementService", () => {
   describe("play", () => {
-    const customerUnit = "BSCU";
-    const businessUnit = "BSBU";
+    const customerUnit = "Eyevinn";
+    const businessUnit = "internal";
     const authUrl = `${EXPOSURE_API_ENDPOINT}/customer/${customerUnit}/businessunit/${businessUnit}/auth/login`;
     const username = process.env.USERNAME;
     const password = process.env.PASSWORD;
