@@ -25,15 +25,36 @@ console.log(endUsers);
 
 ### `mgmtApi.getProductOfferings()`
 
-Get product offerings.
+Get product offerings for a service.
+
+```
+const ManagementAPI = require('enigma.io')('mgmt');
+const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
+const offerings = await mgmtApi.getProductOfferings();
+console.log(offerings);
+```
 
 ### `mgmtApi.getPurchases(accountId)`
 
 Get end user account's active purchases.
 
+```
+const ManagementAPI = require('enigma.io')('mgmt');
+const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
+const purchases = await mgmtApi.getPurchases(accountId);
+console.log(purchases);
+```
+
 ### `mgmtApi.performPurchase(accountId, offeringId)`
 
 Add a product offering to an account.
+
+```
+const ManagementAPI = require('enigma.io')('mgmt');
+const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
+const transaction = await mgmtApi.performPurchase(accountId, offeringId);
+console.log(transaction);
+```
 
 ### `mgmtApi.createUser(username, labels)`
 
@@ -71,6 +92,12 @@ const assetId = await mgmtApi.createAsset("Title of an asset", {
 ### `mgmtApi.ingestVideo(assetId, videoUrl)`
 
 Ingest a video file to an asset. The URL to the video file must be accessible by the platform.
+
+```
+const ManagementAPI = require('enigma.io')('mgmt');
+const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
+const materialId = await mgmtApi.ingestVideo(assetId, "https://this.is.where.my.video.is/video.mp4");
+```
 
 ### `exposureApi.authenticate(username, password)`
 
