@@ -17,12 +17,13 @@ try {
   getopt.setHelp(
     "Usage: enigma-assets [OPTION] command\n" +
       "play\t\tObtain playback URL for an asset\n" +
-      "create\t\tCreate a placeholder asset with only a title\n" +
+      "create\t\tCreate a placeholder asset with only a title and metadata (optional)\n" +
       "ingest\t\tIngest video to a placeholder asset\n" +
       "[[OPTIONS]]\n\n" +
       "Examples:\n" +
       '  Obtain playback URL for an asset:\n    enigma-assets -c CU -b BU --session="SESSIONTOKEN" play ASSETID\n' +
-      '  Upload an asset:\n    enigma-assets -c CU -b BU ingest ASSETID VIDEO-URL'
+      '  Upload an asset:\n    enigma-assets -c CU -b BU ingest ASSETID VIDEO-URL\n' +
+      '  Create an asset:\n    enigma-assets -c CU -n BU create "TITLE" ["METADATA"]'
   );
   getopt.bindHelp();
 
@@ -46,6 +47,8 @@ try {
   const mgmtApi = new ManagementAPI(options.cu, options.bu);
   let assetId;
   let title;
+  let description = "";
+  let metadata;
   let videoUrl;
   let sessionToken = options.session;
 
@@ -69,8 +72,17 @@ try {
     case "create":
     case "CREATE":
       title = opts.argv[1];
+      description = opts.argv[2];
+      if (description) {
+        metadata = {
+          languages: ["en"],
+          en: {
+            description: description
+          }
+        };
+      }
       if (title) {
-        createAsset(mgmtApi, title);
+        createAsset(mgmtApi, title, metadata);
       } else {
         throw "You need to provide a title for the asset";
       }
@@ -110,9 +122,9 @@ async function playAsset(api, sessionToken, assetId) {
   }
 }
 
-async function createAsset(api, title) {
+async function createAsset(api, title, metadata) {
   try {
-    const id = await api.createAsset(title);
+    const id = await api.createAsset(title, metadata);
     console.log(`Created asset: ${id}`);
   } catch (errorMessage) {
     console.log("Failed to create asset: " + errorMessage);

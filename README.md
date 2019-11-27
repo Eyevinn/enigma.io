@@ -43,9 +43,30 @@ Create a user with labels (optional).
 
 Create a batch of users.
 
-### `mgmtApi.createAsset(title)`
+### `mgmtApi.createAsset(title, [metadata])`
 
 Create an empty asset with title.
+
+```
+const ManagementAPI = require('enigma.io')('mgmt');
+const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
+const assetId = await mgmtApi.createAsset("Title of an asset");
+```
+
+Create an empty asset with title and metadata.
+
+```
+const ManagementAPI = require('enigma.io')('mgmt');
+const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
+const assetId = await mgmtApi.createAsset("Title of an asset", {
+  "languages": [ "en" ],
+  "en": {
+    "description": "Walt rejects everyone who tries to help him with the cancer. Jesse tries his best to create Walt's meth, with the help of an old friend."
+  },
+  "studio": "Sony Pictures Television",
+  "productionYear": "2019"
+});
+```
 
 ### `mgmtApi.ingestVideo(assetId, videoUrl)`
 

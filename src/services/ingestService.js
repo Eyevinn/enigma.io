@@ -3,9 +3,10 @@ const uuid = require("uuid/v1");
 const debug = require("debug")("ingest-service");
 const templates = require("../utils/templates");
 
-const createAsset = async ({ url, title, bearerToken }) => {
+const createAsset = async ({ url, title, bearerToken, metadata }) => {
   const id = uuid();
-  const ingestRequestXML = templates.assetIngestXML({ id, title });
+  const ingestRequestXML = templates.assetIngestXML({ id, title, metadata });
+  debug(ingestRequestXML);
 
   const response = await fetch(url, {
     headers: {
