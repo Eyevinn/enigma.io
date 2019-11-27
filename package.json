@@ -13,7 +13,8 @@
     "enigma-assets": "./cli-tools/enigma-assets"
   },
   "author": "devel@eyevinn.se",
-  "license": "MIT",
+  "license": "Apache-2.0",
+  "repository": "https://github.com/Eyevinn/enigma.io",
   "dependencies": {
     "async-sema": "^3.0.1",
     "base-64": "^0.1.0",
