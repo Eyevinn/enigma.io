@@ -17,9 +17,11 @@ const createAsset = async ({ url, title, bearerToken, metadata }) => {
     body: ingestRequestXML
   });
   const ingestResponse = await response.json();
-  if (ingestResponse.internalAssetId) {
+  if (response.ok) {
+    debug(ingestResponse);
     return ingestResponse.internalAssetId;
   } else {
+    debug(response.headers);
     throw ingestResponse.message;
   }
 };
@@ -38,6 +40,7 @@ const linkAssets = async ({ url, srcAssetId, destAssetId, bearerToken }) => {
   });
   const ingestResponse = await response.json();
   if (response.ok) {
+    debug(ingestResponse);
     return ingestResponse.internalAssetId;
   } else {
     debug(response.headers);
@@ -58,10 +61,11 @@ const ingestVideo = async ({ url, assetId, videoUrl, bearerToken }) => {
     body: ingestRequestXML
   });
   const ingestResponse = await response.json();
-  debug(ingestResponse);
-  if (ingestResponse.internalMaterialId) {
+  if (response.ok) {
+    debug(ingestResponse);
     return ingestResponse.internalMaterialId;
   } else {
+    debug(response.headers);
     throw ingestResponse.message;
   }
 };
