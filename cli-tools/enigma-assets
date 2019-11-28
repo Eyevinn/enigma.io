@@ -18,12 +18,14 @@ try {
     "Usage: enigma-assets [OPTION] command\n" +
       "play\t\tObtain playback URL for an asset\n" +
       "create\t\tCreate a placeholder asset with only a title and metadata (optional)\n" +
+      "link\t\tCreate a relation between two assets\n" +
       "ingest\t\tIngest video to a placeholder asset\n" +
       "[[OPTIONS]]\n\n" +
       "Examples:\n" +
       '  Obtain playback URL for an asset:\n    enigma-assets -c CU -b BU --session="SESSIONTOKEN" play ASSETID\n' +
-      '  Upload an asset:\n    enigma-assets -c CU -b BU ingest ASSETID VIDEO-URL\n' +
-      '  Create an asset:\n    enigma-assets -c CU -n BU create "TITLE" ["METADATA"]'
+      "  Upload an asset:\n    enigma-assets -c CU -b BU ingest ASSETID VIDEO-URL\n" +
+      '  Create an asset:\n    enigma-assets -c CU -n BU create "TITLE" ["METADATA"]\n' +
+      "  Link two assets:\n    enigma-assets -c CU -b BU link FROM TO\n"
   );
   getopt.bindHelp();
 
@@ -87,6 +89,14 @@ try {
         throw "You need to provide a title for the asset";
       }
       break;
+    case "link":
+    case "LINK":
+      if (opts.argv[1] && opts.argv[2]) {
+        linkAssets(mgmtApi, opts.argv[1], opts.argv[2]);
+      } else {
+        throw "You need to provide both a source asset ID and a destination asset ID";
+      }
+      break;
     case "ingest":
     case "INGEST":
       assetId = opts.argv[1];
@@ -128,6 +138,15 @@ async function createAsset(api, title, metadata) {
     console.log(`Created asset: ${id}`);
   } catch (errorMessage) {
     console.log("Failed to create asset: " + errorMessage);
+  }
+}
+
+async function linkAssets(api, srcAssetId, destAssetId) {
+  try {
+    await api.linkAssets(srcAssetId, destAssetId);
+    console.log(`Created a link from ${srcAssetId} to ${destAssetId}`);
+  } catch (errorMessage) {
+    console.log("Failed to link assets: " + errorMessage);
   }
 }
 

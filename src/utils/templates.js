@@ -35,6 +35,22 @@ const assetIngestXML = ({ id, title, metadata }) => {
   `;
 };
 
+const assetLinkXML = ({ srcAssetId, destAssetId }) => {
+  return `<?xml version="1.0" encoding="UTF-8"?>
+    <publish-metadata xmlns="http://video-metadata.emp.ebsd.ericsson.net/publish-metadata/v1"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://video-metadata.emp.ebsd.ericsson.net/publish-metadata/v1/../xsd/publish-metadata.xsd">
+    <data>
+      <asset>
+        <id>${srcAssetId}</id>
+        <assetType>movie</assetType>
+        <assetIdRef>${destAssetId}</assetIdRef>
+      </asset>
+    </data>
+    </publish-metadata>
+  `;
+};
+
 const videoIngestXML = ({ id, videoUrl, assetId }) => {
   return `<?xml version="1.0" encoding="UTF-8"?>
     <publish-metadata xmlns="http://video-metadata.emp.ebsd.ericsson.net/publish-metadata/v1"
@@ -54,5 +70,6 @@ const videoIngestXML = ({ id, videoUrl, assetId }) => {
 
 module.exports = {
   assetIngestXML,
+  assetLinkXML,
   videoIngestXML
 };

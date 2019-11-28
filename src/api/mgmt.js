@@ -99,6 +99,17 @@ class EnigmaManagementAPI {
     });
   }
 
+  async linkAssets(srcAssetId, destAssetId) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${MGMT_API_ENDPOINT}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/asset`;
+    return await ingestService.linkAssets({
+      url,
+      srcAssetId,
+      destAssetId,
+      bearerToken: this.bearerToken
+    });
+  }
+
   async ingestVideo(assetId, videoUrl) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     const url = `${MGMT_API_ENDPOINT}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/material`;

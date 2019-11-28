@@ -24,6 +24,27 @@ const createAsset = async ({ url, title, bearerToken, metadata }) => {
   }
 };
 
+const linkAssets = async ({ url, srcAssetId, destAssetId, bearerToken }) => {
+  const ingestRequestXML = templates.assetLinkXML({ srcAssetId, destAssetId });
+  debug(ingestRequestXML);
+
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Basic ${bearerToken}`,
+      "Content-Type": "application/xml"
+    },
+    method: "POST",
+    body: ingestRequestXML
+  });
+  const ingestResponse = await response.json();
+  if (response.ok) {
+    return ingestResponse.internalAssetId;
+  } else {
+    debug(response.headers);
+    throw ingestResponse.message;
+  }
+};
+
 const ingestVideo = async ({ url, assetId, videoUrl, bearerToken }) => {
   const id = uuid();
   const ingestRequestXML = templates.videoIngestXML({ id, videoUrl, assetId });
@@ -47,5 +68,6 @@ const ingestVideo = async ({ url, assetId, videoUrl, bearerToken }) => {
 
 module.exports = {
   createAsset,
+  linkAssets,
   ingestVideo
 };

@@ -89,6 +89,14 @@ const assetId = await mgmtApi.createAsset("Title of an asset", {
 });
 ```
 
+### `mgmtApi.linkAssets(srcAssetId, destAssetId)`
+
+Create a link from `srcAssetId` to `destAssetId`.
+
+const ManagementAPI = require('enigma.io')('mgmt');
+const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
+const assetId = await mgmtApi.linkAssets(srcAssetId, destAssetId);
+
 ### `mgmtApi.ingestVideo(assetId, videoUrl)`
 
 Ingest a video file to an asset. The URL to the video file must be accessible by the platform.
