@@ -4,6 +4,7 @@ const EXPOSURE_API_ENDPOINT = "https://exposureapi.emp.ebsd.ericsson.net/v2";
 
 const authService = require("../services/authService");
 const entitlementService = require("../services/entitlementService");
+const assetService = require("../services/assetService");
 
 class ExposureAPI {
   constructor(customerUnit, businessUnit) {
@@ -28,6 +29,22 @@ class ExposureAPI {
       url,
       sessionToken
     });
+  }
+
+  async getAssets() {
+    if (!this.customerUnit || !this.businessUnit) return;
+    const url = `${EXPOSURE_API_ENDPOINT.replace("v2", "v1")}/customer/${
+      this.customerUnit
+    }/businessunit/${this.businessUnit}/content/asset`;
+    return await assetService.getAllAssets(url);
+  }
+
+  async getAsset(assetId) {
+    if (!this.customerUnit || !this.businessUnit) return;
+    const url = `${EXPOSURE_API_ENDPOINT.replace("v2", "v1")}/customer/${
+      this.customerUnit
+    }/businessunit/${this.businessUnit}/content/asset/${assetId}`;
+    return await assetService.getAsset(url);
   }
 }
 
