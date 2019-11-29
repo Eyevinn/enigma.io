@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const GetOpt = require("node-getopt");
-//const debug = require("debug")("enigma-cli-users");
+const debug = require("debug")("enigma-cli-users");
 const { RateLimit } = require("async-sema");
 
 const ManagementAPI = require("../index.js")("mgmt");
@@ -21,10 +21,11 @@ try {
   ]);
   getopt.setHelp(
     "Usage: enigma-users [OPTION] command\n" +
-      "auth\t\tAuthenticate and obtain a session token\n" +
-      "list\t\tList all users\n" +
-      "offerings\tList all available offerings\n" +
-      "purchase\tAdd a product offering to an account\n" +
+      "auth\t\t\t\t\tAuthenticate and obtain a session token\n" +
+      "list\t\t\t\t\tList all users\n" +
+      "offerings\t\t\t\tList all available offerings\n" +
+      "purchase OFFERINGID EMAIL\t\tAdd a product offering to an account\n" +
+      "reviewer EMAIL\t\t\t\tAssign reviewer role for a user\n" +
       "[[OPTIONS]]\n\n" +
       "Examples:\n" +
       "  List all users:\n    enigma-users -c CU -b BU list\n" +
@@ -106,6 +107,14 @@ try {
       }
       authenticate(exposureApi, email, password);
       break;
+    case "reviewer":
+    case "REVIEWER":
+      email = opts.argv[1];
+      if (!email) {
+        throw "Username must be provided";
+      }
+      assignReviewer(mgmtApi, email);
+      break;
   }
 } catch (errObj) {
   console.log(errObj);
@@ -165,5 +174,18 @@ async function authenticate(api, username, password) {
     console.log(authResponse.sessionToken);
   } catch (errorMessage) {
     console.log(`Failed to authenticate ${username}: ` + errorMessage);
+  }
+}
+
+async function assignReviewer(api, username) {
+  try {
+    const labels = [{ key: "paymentMethodPreview", value: "true" }];
+    const user = await api.setLabelsForUser(username, labels);
+    debug(user);
+    console.log(`Assigned reviewer role for ${username}`);
+  } catch (errorMessage) {
+    console.log(
+      `Failed to assign reviewer role for ${username}:` + errorMessage
+    );
   }
 }

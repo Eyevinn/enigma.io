@@ -82,6 +82,26 @@ const createUsers = async ({ url, bearerToken, users }) => {
   }
 };
 
+const setLabels = async ({ url, bearerToken, labels /* key-val array */ }) => {
+  const requestBody = {
+    accountLabels: labels
+  };
+  const response = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Basic ${bearerToken}`
+    },
+    body: JSON.stringify(requestBody)
+  });
+  const responseBody = await response.json();
+  if (response.ok) {
+    return responseBody;
+  } else {
+    throw responseBody.message;
+  }
+};
+
 const getPurchases = async ({ url, bearerToken }) => {
   const response = await fetch(url, {
     headers: { Authorization: `Basic ${bearerToken}` }
@@ -99,5 +119,6 @@ module.exports = {
   getUser,
   createUser,
   createUsers,
+  setLabels,
   getPurchases
 };

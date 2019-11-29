@@ -61,6 +61,18 @@ class EnigmaManagementAPI {
     });
   }
 
+  async setLabelsForUser(username, labels) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const user = await this.getEndUser(username);
+    const accountId = user.accountId;
+    const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}/label`;
+    return await endUserService.setLabels({
+      url,
+      bearerToken: this.bearerToken,
+      labels
+    });
+  }
+
   async getProductOfferings() {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/productoffering`;
