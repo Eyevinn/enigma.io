@@ -31,12 +31,15 @@ class ExposureAPI {
     });
   }
 
-  async getAssets() {
+  async getAssets(assetType = undefined) {
     if (!this.customerUnit || !this.businessUnit) return;
     const url = `${EXPOSURE_API_ENDPOINT.replace("v2", "v1")}/customer/${
       this.customerUnit
     }/businessunit/${this.businessUnit}/content/asset`;
-    return await assetService.getAllAssets(url);
+    return await assetService.getAllAssets({
+      url,
+      ...(assetType && { assetType })
+    });
   }
 
   async getAsset(assetId) {
@@ -45,6 +48,14 @@ class ExposureAPI {
       this.customerUnit
     }/businessunit/${this.businessUnit}/content/asset/${assetId}`;
     return await assetService.getAsset(url);
+  }
+
+  async resolveSerie(serieId) {
+    if (!this.customerUnit || !this.businessUnit) return;
+    const url = `${EXPOSURE_API_ENDPOINT.replace("v2", "v1")}/customer/${
+      this.customerUnit
+    }/businessunit/${this.businessUnit}/content/asset/${serieId}`;
+    return await assetService.resolveSerie(url);
   }
 }
 
