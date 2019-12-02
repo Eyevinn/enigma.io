@@ -3,7 +3,7 @@ An NPM library for integration with Red Bee Media Managed OTT platform.
 ## Installation
 
 ```
-npm install enigma.io
+npm install @eyevinn/enigma.io
 ```
 
 ## Authentication
@@ -93,9 +93,11 @@ const assetId = await mgmtApi.createAsset("Title of an asset", {
 
 Create a link from `srcAssetId` to `destAssetId`.
 
+```
 const ManagementAPI = require('enigma.io')('mgmt');
 const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
 const assetId = await mgmtApi.linkAssets(srcAssetId, destAssetId);
+```
 
 ### `mgmtApi.ingestVideo(assetId, videoUrl)`
 
