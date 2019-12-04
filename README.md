@@ -10,7 +10,7 @@ npm install @eyevinn/enigma.io
 
 Provide API key ID and secret with the environment variables `API_KEY_ID` and `API_KEY_SECRET`.
 
-## API
+## Management API
 
 ### `mgmtApi.getEndUsers()`
 
@@ -109,9 +109,70 @@ const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
 const materialId = await mgmtApi.ingestVideo(assetId, "https://this.is.where.my.video.is/video.mp4");
 ```
 
+## Exposure API
+
 ### `exposureApi.authenticate(username, password)`
 
 Get an authentication response for a user.
+
+```
+const ExposureAPI = require('enigma.io')('exposure');
+const exposureApi = new ExposureAPI('Customer', 'BusinessUnit');
+const authResponse = await exposureApi.authenticate(username, password);
+const sessionToken = authResponse.sessionToken;
+```
+
+### `exposureApi.play(sessionToken, assetId)`
+
+Obtain a playable media locator.
+
+```
+const ExposureAPI = require('enigma.io')('exposure');
+const exposureApi = new ExposureAPI('Customer', 'BusinessUnit');
+const authResponse = await exposureApi.authenticate(username, password);
+const sessionToken = authResponse.sessionToken;
+const playResponse = await exposureApi.play(sessionToken, assetId);
+const hlsFormat = playResponse.formats.find(a => a.format === "HLS");
+if (hlsFormat) {
+  const mediaLocator = hlsFormat.mediaLocator;
+}
+```
+
+### `exposureApi.getAssets(assetType)`
+
+Get all assets of a specific asset type.
+
+### `exposureApi.getAsset(assetId)`
+
+Get a specific asset by its asset ID.
+
+### `exposureApi.resolveSerie(serieId)`
+
+Get all assets for a serie and structured in a series/seasons/episodes structure.
+
+```
+const ExposureAPI = require('enigma.io')('exposure');
+const exposureApi = new ExposureAPI('Customer', 'BusinessUnit');
+const tvShow = await exposureApi.resolveSerie(serieId);
+```
+
+where `tvShow` has the following structure:
+
+```
+{
+  seasons: [
+    {
+      episodes: [
+        {
+          ...
+        },
+        ...
+      ],
+      ...
+    }
+  ]
+}
+```
 
 ## Run the tests
 
