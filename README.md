@@ -16,7 +16,7 @@ Provide API key ID and secret with the environment variables `API_KEY_ID` and `A
 
 Retrieve a list of end users.
 
-```
+```js
 const ManagementAPI = require('enigma.io')('mgmt');
 const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
 const endUsers = await mgmtApi.getEndUsers();
@@ -27,18 +27,29 @@ console.log(endUsers);
 
 Get product offerings for a service.
 
-```
+```js
 const ManagementAPI = require('enigma.io')('mgmt');
 const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
 const offerings = await mgmtApi.getProductOfferings();
 console.log(offerings);
 ```
 
+### `mgmtApi.getProductOffering()`
+
+Get a specific product offering for a service.
+
+```js
+const ManagementAPI = require('enigma.io')('mgmt');
+const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
+const offering = await mgmtApi.getProductOffering(productOfferingId);
+console.log(offering);
+```
+
 ### `mgmtApi.getPurchases(accountId)`
 
 Get end user account's active purchases.
 
-```
+```js
 const ManagementAPI = require('enigma.io')('mgmt');
 const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
 const purchases = await mgmtApi.getPurchases(accountId);
@@ -49,7 +60,7 @@ console.log(purchases);
 
 Add a product offering to an account.
 
-```
+```js
 const ManagementAPI = require('enigma.io')('mgmt');
 const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
 const transaction = await mgmtApi.performPurchase(accountId, offeringId);
@@ -68,7 +79,7 @@ Create a batch of users.
 
 Create an empty asset with title.
 
-```
+```js
 const ManagementAPI = require('enigma.io')('mgmt');
 const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
 const assetId = await mgmtApi.createAsset("Title of an asset");
@@ -76,7 +87,7 @@ const assetId = await mgmtApi.createAsset("Title of an asset");
 
 Create an empty asset with title and metadata.
 
-```
+```js
 const ManagementAPI = require('enigma.io')('mgmt');
 const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
 const assetId = await mgmtApi.createAsset("Title of an asset", {
@@ -93,7 +104,7 @@ const assetId = await mgmtApi.createAsset("Title of an asset", {
 
 Create a link from `srcAssetId` to `destAssetId`.
 
-```
+```js
 const ManagementAPI = require('enigma.io')('mgmt');
 const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
 const assetId = await mgmtApi.linkAssets(srcAssetId, destAssetId);
@@ -103,7 +114,7 @@ const assetId = await mgmtApi.linkAssets(srcAssetId, destAssetId);
 
 Ingest a video file to an asset. The URL to the video file must be accessible by the platform.
 
-```
+```js
 const ManagementAPI = require('enigma.io')('mgmt');
 const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
 const materialId = await mgmtApi.ingestVideo(assetId, "https://this.is.where.my.video.is/video.mp4");
@@ -115,7 +126,7 @@ const materialId = await mgmtApi.ingestVideo(assetId, "https://this.is.where.my.
 
 Get an authentication response for a user.
 
-```
+```js
 const ExposureAPI = require('enigma.io')('exposure');
 const exposureApi = new ExposureAPI('Customer', 'BusinessUnit');
 const authResponse = await exposureApi.authenticate(username, password);
@@ -126,7 +137,7 @@ const sessionToken = authResponse.sessionToken;
 
 Obtain a playable media locator.
 
-```
+```js
 const ExposureAPI = require('enigma.io')('exposure');
 const exposureApi = new ExposureAPI('Customer', 'BusinessUnit');
 const authResponse = await exposureApi.authenticate(username, password);
@@ -150,7 +161,7 @@ Get a specific asset by its asset ID.
 
 Get all assets for a serie and structured in a series/seasons/episodes structure.
 
-```
+```js
 const ExposureAPI = require('enigma.io')('exposure');
 const exposureApi = new ExposureAPI('Customer', 'BusinessUnit');
 const tvShow = await exposureApi.resolveSerie(serieId);

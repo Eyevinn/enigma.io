@@ -82,6 +82,15 @@ class EnigmaManagementAPI {
     });
   }
 
+  async getProductOffering(productOfferingId) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/productoffering/${productOfferingId}`;
+    return await productOfferingsService.getOffering({
+      url,
+      bearerToken: this.bearerToken
+    });
+  }
+
   async getPurchases(accountId) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}/purchase`;
