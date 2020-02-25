@@ -34,7 +34,7 @@ const offerings = await mgmtApi.getProductOfferings();
 console.log(offerings);
 ```
 
-### `mgmtApi.getProductOffering()`
+### `mgmtApi.getProductOffering(productOfferingId)`
 
 Get a specific product offering for a service.
 
