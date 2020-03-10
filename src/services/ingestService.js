@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const fetch = require("node-fetch").default;
 const uuid = require("uuid/v1");
 const debug = require("debug")("ingest-service");
 const templates = require("../utils/templates");

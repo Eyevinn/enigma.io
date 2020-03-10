@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const fetch = require("node-fetch").default;
 const debug = require("debug")("entitlement-service");
 
 const play = async ({ url, sessionToken }) => {

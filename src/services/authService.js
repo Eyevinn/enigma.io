@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const fetch = require("node-fetch").default;
 const { machineId } = require("node-machine-id");
 const debug = require("debug")("auth-service");
 

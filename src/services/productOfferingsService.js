@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const fetch = require("node-fetch").default;
 
 const getOfferings = async ({ url, bearerToken }) => {
   let records = [];

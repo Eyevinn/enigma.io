@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const fetch = require("node-fetch").default;
 const constants = require("../utils/constants");
 
 const getAsset = async url => {

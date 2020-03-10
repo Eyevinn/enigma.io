@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const fetch = require("node-fetch").default;
 const helpers = require("../utils/helpers");
 
 const getUsers = async ({ url, bearerToken, limit = undefined }) => {
