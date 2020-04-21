@@ -12,178 +12,58 @@ Provide API key ID and secret with the environment variables `API_KEY_ID` and `A
 
 ## Management API
 
-### `mgmtApi.getEndUsers()`
-
-Retrieve a list of end users.
-
 ```js
-const ManagementAPI = require('enigma.io')('mgmt');
-const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
-const endUsers = await mgmtApi.getEndUsers();
-console.log(endUsers);
+const EnigmaIO = require("@eyevinn/enigma.io");
+const managementApi = new EnigmaIO.ManagementAPI("Customer", "BusinessUnit");
 ```
 
-### `mgmtApi.getProductOfferings()`
+### Methods
 
-Get product offerings for a service.
+#### Users
 
-```js
-const ManagementAPI = require('enigma.io')('mgmt');
-const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
-const offerings = await mgmtApi.getProductOfferings();
-console.log(offerings);
-```
+- [`getEndUsers`](src/api/mgmt.js#L24) Retrieve a list of end users.
+- [`getEndUser`](src/api/mgmt.js#L34) Retrieve a specific end user.
+- [`createUser`](src/api/mgmt.js#L43) Create a single end user.
+- [`createUsers`](src/api/mgmt.js#L54) Bulk create users.
+- [`setLabelsForUser`](src/api/mgmt.js#L64) Set labels on an existing user.
 
-### `mgmtApi.getProductOffering(productOfferingId)`
+#### Products & Product Offerings
 
-Get a specific product offering for a service.
+- [`getProductOfferings`](src/api/mgmt.js#L76) Retrieve a list of productOfferings.
+- [`getProductOffering`](src/api/mgmt.js#L88) Retrieve a specific productOffering.
+- [`setLabelsForProductOffering`](src/api/mgmt.js#L97) Set labels on an existing productOffering.
 
-```js
-const ManagementAPI = require('enigma.io')('mgmt');
-const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
-const offering = await mgmtApi.getProductOffering(productOfferingId);
-console.log(offering);
-```
+#### Purchases
 
-### `mgmtApi.getPurchases(accountId)`
+- [`getPurchases`](src/api/mgmt.js#L107) Retrieve active purchases for an account.
+- [`performPurchase`](src/api/mgmt.js#L116) Performs a purchase of a given productOffering for a given account.
 
-Get end user account's active purchases.
+#### Assets
 
-```js
-const ManagementAPI = require('enigma.io')('mgmt');
-const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
-const purchases = await mgmtApi.getPurchases(accountId);
-console.log(purchases);
-```
-
-### `mgmtApi.performPurchase(accountId, offeringId)`
-
-Add a product offering to an account.
-
-```js
-const ManagementAPI = require('enigma.io')('mgmt');
-const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
-const transaction = await mgmtApi.performPurchase(accountId, offeringId);
-console.log(transaction);
-```
-
-### `mgmtApi.createUser(username, labels)`
-
-Create a user with labels (optional).
-
-### `mgmtApi.createUsers(users)`
-
-Create a batch of users.
-
-### `mgmtApi.createAsset(title, [metadata])`
-
-Create an empty asset with title.
-
-```js
-const ManagementAPI = require('enigma.io')('mgmt');
-const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
-const assetId = await mgmtApi.createAsset("Title of an asset");
-```
-
-Create an empty asset with title and metadata.
-
-```js
-const ManagementAPI = require('enigma.io')('mgmt');
-const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
-const assetId = await mgmtApi.createAsset("Title of an asset", {
-  "languages": [ "en" ],
-  "en": {
-    "description": "Walt rejects everyone who tries to help him with the cancer. Jesse tries his best to create Walt's meth, with the help of an old friend."
-  },
-  "studio": "Sony Pictures Television",
-  "productionYear": "2019"
-});
-```
-
-### `mgmtApi.linkAssets(srcAssetId, destAssetId)`
-
-Create a link from `srcAssetId` to `destAssetId`.
-
-```js
-const ManagementAPI = require('enigma.io')('mgmt');
-const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
-const assetId = await mgmtApi.linkAssets(srcAssetId, destAssetId);
-```
-
-### `mgmtApi.ingestVideo(assetId, videoUrl)`
-
-Ingest a video file to an asset. The URL to the video file must be accessible by the platform.
-
-```js
-const ManagementAPI = require('enigma.io')('mgmt');
-const mgmtApi = new ManagementAPI('Customer', 'BusinessUnit');
-const materialId = await mgmtApi.ingestVideo(assetId, "https://this.is.where.my.video.is/video.mp4");
-```
+- [`createAsset`](src/api/mgmt.js#L125) Create an asset
+- [`linkAssets`](src/api/mgmt.js#L136) Create a link from srcAssetId to destAssetId.
+- [`ingestVideo`](src/api/mgmt.js#L147) Ingest a video file to an asset. The URL to the video file must be accessible by the platform.
 
 ## Exposure API
 
-### `exposureApi.authenticate(username, password)`
-
-Get an authentication response for a user.
-
 ```js
-const ExposureAPI = require('enigma.io')('exposure');
-const exposureApi = new ExposureAPI('Customer', 'BusinessUnit');
-const authResponse = await exposureApi.authenticate(username, password);
-const sessionToken = authResponse.sessionToken;
+const EnigmaIO = require("@eyevinn/enigma.io");
+const exposureApi = new EnigmaIO.ExposureAPI("Customer", "BusinessUnit");
 ```
 
-### `exposureApi.play(sessionToken, assetId)`
+### Methods
 
-Obtain a playable media locator.
+#### Authorization
 
-```js
-const ExposureAPI = require('enigma.io')('exposure');
-const exposureApi = new ExposureAPI('Customer', 'BusinessUnit');
-const authResponse = await exposureApi.authenticate(username, password);
-const sessionToken = authResponse.sessionToken;
-const playResponse = await exposureApi.play(sessionToken, assetId);
-const hlsFormat = playResponse.formats.find(a => a.format === "HLS");
-if (hlsFormat) {
-  const mediaLocator = hlsFormat.mediaLocator;
-}
-```
+- [`authenticate`](src/api/exposure.js#L15) Get an authenticated session for an end user
 
-### `exposureApi.getAssets(assetType)`
+#### Assets
 
-Get all assets of a specific asset type.
+- [`play`](src/api/exposure.js#L25) Get a medialocator, i.e. a manifest, to play the file
+- [`getAssets`](src/api/exposure.js#L34) Get all assets of a specific asset type.
+- [`getAsset`](src/api/exposure.js#L45) Get a specific asset by its asset ID.
+- [`resolveSerie`](src/api/exposure.js#53) Get all assets for a serie and structured in a series/seasons/episodes structure.
 
-### `exposureApi.getAsset(assetId)`
-
-Get a specific asset by its asset ID.
-
-### `exposureApi.resolveSerie(serieId)`
-
-Get all assets for a serie and structured in a series/seasons/episodes structure.
-
-```js
-const ExposureAPI = require('enigma.io')('exposure');
-const exposureApi = new ExposureAPI('Customer', 'BusinessUnit');
-const tvShow = await exposureApi.resolveSerie(serieId);
-```
-
-where `tvShow` has the following structure:
-
-```
-{
-  seasons: [
-    {
-      episodes: [
-        {
-          ...
-        },
-        ...
-      ],
-      ...
-    }
-  ]
-}
-```
 
 ## Run the tests
 
