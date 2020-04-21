@@ -41,6 +41,19 @@ const managementApi = new EnigmaIO.ManagementAPI("Customer", "BusinessUnit");
 #### Assets
 
 - [`createAsset`](src/api/mgmt.js#L125) Create an asset
+
+Where the metadata object should be constructed in the following format
+```js
+{
+  "languages": [ "en" ],
+  "en": {
+    "description": "Walt rejects everyone who tries to help him with the cancer. Jesse tries his best to create Walt's meth, with the help of an old friend."
+  },
+  "studio": "Sony Pictures Television",
+  "productionYear": "2019"
+}
+```
+
 - [`linkAssets`](src/api/mgmt.js#L136) Create a link from srcAssetId to destAssetId.
 - [`ingestVideo`](src/api/mgmt.js#L147) Ingest a video file to an asset. The URL to the video file must be accessible by the platform.
 
@@ -57,9 +70,25 @@ const exposureApi = new EnigmaIO.ExposureAPI("Customer", "BusinessUnit");
 
 - [`authenticate`](src/api/exposure.js#L15) Get an authenticated session for an end user
 
+```js
+const authResponse = await exposureApi.authenticate(username, password);
+const sessionToken = authResponse.sessionToken;
+```
+
 #### Assets
 
 - [`play`](src/api/exposure.js#L25) Get a medialocator, i.e. a manifest, to play the file
+
+```js
+const authResponse = await exposureApi.authenticate(username, password);
+const sessionToken = authResponse.sessionToken;
+const playResponse = await exposureApi.play(sessionToken, assetId);
+const hlsFormat = playResponse.formats.find(a => a.format === "HLS");
+if (hlsFormat) {
+  const mediaLocator = hlsFormat.mediaLocator;
+}
+```
+
 - [`getAssets`](src/api/exposure.js#L34) Get all assets of a specific asset type.
 - [`getAsset`](src/api/exposure.js#L45) Get a specific asset by its asset ID.
 - [`resolveSerie`](src/api/exposure.js#53) Get all assets for a serie and structured in a series/seasons/episodes structure.
