@@ -40,14 +40,15 @@ class EnigmaManagementAPI {
     });
   }
 
-  async createUser(username, labels) {
+  async createUser(username, labels, authenticationType) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user`;
     return await endUserService.createUser({
       url,
       bearerToken: this.bearerToken,
       username,
-      ...(labels && { labels })
+      ...(labels && { labels }),
+      ...(authenticationType && { authenticationType })
     });
   }
 

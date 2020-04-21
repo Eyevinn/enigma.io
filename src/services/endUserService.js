@@ -39,9 +39,15 @@ const getUser = async ({ url, bearerToken }) => {
   }
 };
 
-const createUser = async ({ url, bearerToken, username, labels }) => {
+const createUser = async ({
+  url,
+  bearerToken,
+  username,
+  labels,
+  authenticationType = "DEFAULT"
+}) => {
   const userObject = {
-    authenticationType: "DEFAULT",
+    authenticationType,
     referenceId: username + helpers.generateId(),
     username,
     ...(labels && { labels })
