@@ -75,7 +75,7 @@ class EnigmaManagementAPI {
 
   async getProductOfferings() {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
-    const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/productoffering`;
+    const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/productoffering?labelFiltering=false`;
     return await productOfferingsService.getOfferings({
       url,
       bearerToken: this.bearerToken
