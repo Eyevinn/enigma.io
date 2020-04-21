@@ -26,6 +26,30 @@ const getOffering = async ({ url, bearerToken }) => {
   }
 };
 
+const setLabels = async ({ url, bearerToken, keyValueLabel }) => {
+  const [key, value] = keyValueLabel.split(",");
+  const requestBody = {
+    eq: {
+      key: key,
+      value: value
+    }
+  };
+  const response = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Basic ${bearerToken}`
+    },
+    body: JSON.stringify(requestBody)
+  });
+  const responseBody = await response.json();
+  if (response.ok) {
+    return responseBody;
+  } else {
+    throw responseBody.message;
+  }
+};
+
 const performPurchase = async ({ url, bearerToken }) => {
   let response = await fetch(url, {
     method: "POST",
@@ -42,5 +66,6 @@ const performPurchase = async ({ url, bearerToken }) => {
 module.exports = {
   getOfferings,
   getOffering,
+  setLabels,
   performPurchase
 };

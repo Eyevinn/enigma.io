@@ -94,6 +94,16 @@ class EnigmaManagementAPI {
     });
   }
 
+  async setLabelsForProductOffering(productOfferingId, keyValueLabel) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/productoffering/${productOfferingId}/labelRules`;
+    return await productOfferingsService.setLabels({
+      url,
+      bearerToken: this.bearerToken,
+      keyValueLabel
+    });
+  }
+
   async getPurchases(accountId) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}/purchase`;
