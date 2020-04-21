@@ -1,6 +1,7 @@
-const ManagementAPI = require("./index.js")("mgmt");
+require("dotenv-vars");
 
-const mgmtApi = new ManagementAPI("Eyevinn", "STSWE");
+const EnigmaIO = require("./index");
+const mgmtApi = new EnigmaIO.ManagementAPI("Eyevinn", "STSWE");
 
 async function go() {
   const endUsers = await mgmtApi.getEndUsers();
