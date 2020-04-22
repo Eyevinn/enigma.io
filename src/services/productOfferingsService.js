@@ -63,9 +63,23 @@ const performPurchase = async ({ url, bearerToken }) => {
   }
 };
 
+const removePurchase = async ({ url, bearerToken }) => {
+  let response = await fetch(url, {
+    method: "DELETE",
+    headers: { Authorization: `Basic ${bearerToken}` }
+  });
+  let json = await response.json();
+  if (response.ok) {
+    return json;
+  } else {
+    throw json.message;
+  }
+};
+
 module.exports = {
   getOfferings,
   getOffering,
   setLabels,
-  performPurchase
+  performPurchase,
+  removePurchase
 };

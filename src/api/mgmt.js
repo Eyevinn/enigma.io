@@ -123,6 +123,15 @@ class EnigmaManagementAPI {
     });
   }
 
+  async removePurchase(accountId, offeringId) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}/purchase/${offeringId}`;
+    return await productOfferingsService.removePurchase({
+      url,
+      bearerToken: this.bearerToken
+    });
+  }
+
   async createAsset(title, metadata) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     const url = `${MGMT_API_ENDPOINT}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/asset`;

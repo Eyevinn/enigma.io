@@ -24,23 +24,24 @@ const managementApi = new EnigmaIO.ManagementAPI("Customer", "BusinessUnit");
 - [`getEndUsers`](src/api/mgmt.js#L24) Retrieve a list of end users.
 - [`getEndUser`](src/api/mgmt.js#L34) Retrieve a specific end user.
 - [`createUser`](src/api/mgmt.js#L43) Create a single end user.
-- [`createUsers`](src/api/mgmt.js#L54) Bulk create users.
-- [`setLabelsForUser`](src/api/mgmt.js#L64) Set labels on an existing user.
+- [`createUsers`](src/api/mgmt.js#L55) Bulk create users.
+- [`setLabelsForUser`](src/api/mgmt.js#L65) Set labels on an existing user.
 
 #### Products & Product Offerings
 
-- [`getProductOfferings`](src/api/mgmt.js#L76) Retrieve a list of productOfferings.
-- [`getProductOffering`](src/api/mgmt.js#L88) Retrieve a specific productOffering.
-- [`setLabelsForProductOffering`](src/api/mgmt.js#L97) Set labels on an existing productOffering.
+- [`getProductOfferings`](src/api/mgmt.js#L77) Retrieve a list of productOfferings.
+- [`getProductOffering`](src/api/mgmt.js#L89) Retrieve a specific productOffering.
+- [`setLabelsForProductOffering`](src/api/mgmt.js#L98) Set labels on an existing productOffering.
 
 #### Purchases
 
-- [`getPurchases`](src/api/mgmt.js#L107) Retrieve active purchases for an account.
-- [`performPurchase`](src/api/mgmt.js#L116) Performs a purchase of a given productOffering for a given account.
+- [`getPurchases`](src/api/mgmt.js#L108) Retrieve active purchases for an account.
+- [`performPurchase`](src/api/mgmt.js#L117) Performs a purchase of a given productOffering for a given account.
+- [`removePurchase](src/api/mgmt.js#L126) Remove a purchased productOffering and its access from a given account.
 
 #### Assets
 
-- [`createAsset`](src/api/mgmt.js#L125) Create an asset
+- [`createAsset`](src/api/mgmt.js#L135) Create an asset
 
 Where the metadata object should be constructed in the following format
 ```js
@@ -54,8 +55,8 @@ Where the metadata object should be constructed in the following format
 }
 ```
 
-- [`linkAssets`](src/api/mgmt.js#L136) Create a link from srcAssetId to destAssetId.
-- [`ingestVideo`](src/api/mgmt.js#L147) Ingest a video file to an asset. The URL to the video file must be accessible by the platform.
+- [`linkAssets`](src/api/mgmt.js#L146) Create a link from srcAssetId to destAssetId.
+- [`ingestVideo`](src/api/mgmt.js#L157) Ingest a video file to an asset. The URL to the video file must be accessible by the platform.
 
 ## Exposure API
 
