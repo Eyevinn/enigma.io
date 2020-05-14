@@ -1,6 +1,6 @@
 const fetch = require("node-fetch").default;
 
-const getOfferings = async ({ url, bearerToken }) => {
+const getOfferings = async ({ url, bearerToken, onlyPurchasable }) => {
   let records = [];
   let response = await fetch(url, {
     headers: { Authorization: `Basic ${bearerToken}` }
@@ -8,7 +8,8 @@ const getOfferings = async ({ url, bearerToken }) => {
   let json = await response.json();
   if (response.ok) {
     await records.push.apply(records, json);
-    return records;
+    if (!onlyPurchasable) return records;
+    return records.filter(p => p.offeringPrice);
   } else {
     throw json.message;
   }

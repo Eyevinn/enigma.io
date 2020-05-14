@@ -74,7 +74,7 @@ class EnigmaManagementAPI {
     });
   }
 
-  async getProductOfferings(labelRule = undefined) {
+  async getProductOfferings(labelRule = undefined, onlyPurchasable = false) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     const query = labelRule
       ? `?labelFiltering=true&labelFilter=${labelRule}`
@@ -82,7 +82,8 @@ class EnigmaManagementAPI {
     const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/productoffering${query}`;
     return await productOfferingsService.getOfferings({
       url,
-      bearerToken: this.bearerToken
+      bearerToken: this.bearerToken,
+      onlyPurchasable
     });
   }
 
