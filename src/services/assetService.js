@@ -1,7 +1,7 @@
 const fetch = require("node-fetch").default;
 const constants = require("../utils/constants");
 
-const getAsset = async url => {
+const getAsset = async (url) => {
   const response = await fetch(url);
   const asset = await response.json();
   if (response.ok) {
@@ -41,7 +41,7 @@ const getAllAssets = async ({ url, onlyPublished, assetType }) => {
   }
 };
 
-const resolveSerie = async url => {
+const resolveSerie = async (url) => {
   const tvShow = {};
   const serie = await getAsset(url);
   if (serie.type !== constants.AssetTypes.TV_SHOW) return;
@@ -63,7 +63,7 @@ const resolveSerie = async url => {
   return tvShow;
 };
 
-const getSeasonsForSerie = async url => {
+const getSeasonsForSerie = async (url) => {
   const response = await fetch(url);
   const seasons = await response.json();
   if (response.ok) {
@@ -73,7 +73,7 @@ const getSeasonsForSerie = async url => {
   }
 };
 
-const getEpisodesForSeason = async url => {
+const getEpisodesForSeason = async (url) => {
   const response = await fetch(url);
   const episodes = await response.json();
   if (response.ok) {
@@ -86,5 +86,5 @@ const getEpisodesForSeason = async url => {
 module.exports = {
   getAsset,
   getAllAssets,
-  resolveSerie
+  resolveSerie,
 };
