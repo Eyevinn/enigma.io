@@ -4,7 +4,7 @@ const assetIngestXML = ({ id, title, metadata }) => {
     if (metadata.languages) {
       if (metadata[metadata.languages[0]].description) {
         metadataXML += "<descriptionList>";
-        metadata.languages.forEach(lang => {
+        metadata.languages.forEach((lang) => {
           metadataXML += `<description language="${lang}" length="medium">${metadata[lang].description}</description>`;
         });
         metadataXML += "</descriptionList>";

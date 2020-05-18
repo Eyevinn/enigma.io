@@ -11,10 +11,10 @@ const createAsset = async ({ url, title, bearerToken, metadata }) => {
   const response = await fetch(url, {
     headers: {
       Authorization: `Basic ${bearerToken}`,
-      "Content-Type": "application/xml"
+      "Content-Type": "application/xml",
     },
     method: "POST",
-    body: ingestRequestXML
+    body: ingestRequestXML,
   });
   const ingestResponse = await response.json();
   if (response.ok) {
@@ -33,10 +33,10 @@ const linkAssets = async ({ url, srcAssetId, destAssetId, bearerToken }) => {
   const response = await fetch(url, {
     headers: {
       Authorization: `Basic ${bearerToken}`,
-      "Content-Type": "application/xml"
+      "Content-Type": "application/xml",
     },
     method: "POST",
-    body: ingestRequestXML
+    body: ingestRequestXML,
   });
   const ingestResponse = await response.json();
   if (response.ok) {
@@ -55,10 +55,10 @@ const ingestVideo = async ({ url, assetId, videoUrl, bearerToken }) => {
   const response = await fetch(url, {
     headers: {
       Authorization: `Basic ${bearerToken}`,
-      "Content-Type": "application/xml"
+      "Content-Type": "application/xml",
     },
     method: "POST",
-    body: ingestRequestXML
+    body: ingestRequestXML,
   });
   const ingestResponse = await response.json();
   if (response.ok) {
@@ -80,7 +80,7 @@ const publishAsset = async ({ url, assetId, productId, bearerToken }) => {
       "Content-Type": "application/xml",
     },
     method: "POST",
-    body: publicationXML
+    body: publicationXML,
   });
   const publicationResponse = await response.json();
   if (response.ok) {

@@ -18,7 +18,7 @@ class ExposureAPI {
     return await authService.authenticate({
       url,
       username,
-      password
+      password,
     });
   }
 
@@ -27,7 +27,7 @@ class ExposureAPI {
     const url = `${EXPOSURE_API_ENDPOINT}/customer/${this.customerUnit}/businessunit/${this.businessUnit}/entitlement/${assetId}/play`;
     return await entitlementService.play({
       url,
-      sessionToken
+      sessionToken,
     });
   }
 
@@ -39,7 +39,7 @@ class ExposureAPI {
     return await assetService.getAllAssets({
       url,
       onlyPublished,
-      ...(assetType && { assetType })
+      ...(assetType && { assetType }),
     });
   }
 
