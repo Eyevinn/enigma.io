@@ -57,6 +57,7 @@ Where the metadata object should be constructed in the following format
 
 - [`linkAssets`](src/api/mgmt.js#L147) Create a link from srcAssetId to destAssetId.
 - [`ingestVideo`](src/api/mgmt.js#L158) Ingest a video file to an asset. The URL to the video file must be accessible by the platform.
+- [`publishAsset`](src/api/mgmt.js#L169) Add a product publication to an asset.
 
 ## Exposure API
 

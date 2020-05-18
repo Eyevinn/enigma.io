@@ -165,6 +165,17 @@ class EnigmaManagementAPI {
       bearerToken: this.bearerToken
     });
   }
+
+  async publishAsset(assetId, productId) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${MGMT_API_ENDPOINT}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/publication`;
+    return await ingestService.publishAsset({
+      url,
+      assetId,
+      productId,
+      bearerToken: this.bearerToken,
+    });
+  }
 }
 
 module.exports = EnigmaManagementAPI;

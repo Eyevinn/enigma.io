@@ -70,8 +70,31 @@ const ingestVideo = async ({ url, assetId, videoUrl, bearerToken }) => {
   }
 };
 
+const publishAsset = async ({ url, assetId, productId, bearerToken }) => {
+  const id = uuid();
+  const publicationXML = templates.publicationXML({ id, assetId, productId });
+
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Basic ${bearerToken}`,
+      "Content-Type": "application/xml",
+    },
+    method: "POST",
+    body: publicationXML
+  });
+  const publicationResponse = await response.json();
+  if (response.ok) {
+    debug(publicationResponse);
+    return publicationResponse;
+  } else {
+    debug(response.headers);
+    throw publicationResponse.message;
+  }
+};
+
 module.exports = {
   createAsset,
   linkAssets,
-  ingestVideo
+  ingestVideo,
+  publishAsset,
 };
