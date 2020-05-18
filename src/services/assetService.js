@@ -11,15 +11,21 @@ const getAsset = async url => {
   }
 };
 
-const getAllAssets = async ({ url, assetType }) => {
+const getAllAssets = async ({ url, onlyPublished, assetType }) => {
   let assetList = [];
   let keepGoing = true;
   let page = 1;
   while (keepGoing) {
     let response = await fetch(
-      `${url}?pageNumber=${page}&pageSize=100${
+      `${url}?pageNumber=${page}&pageSize=100&fieldSet=ALL&onlyPublished=${onlyPublished}${
         assetType ? "&assetType=" + assetType : ""
-      }`
+      }`,
+      {
+        headers: {
+          pragma: "no-cache",
+          "cache-control": "no-cache",
+        },
+      }
     );
     let json = await response.json();
     if (response.ok) {

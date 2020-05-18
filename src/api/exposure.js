@@ -31,13 +31,14 @@ class ExposureAPI {
     });
   }
 
-  async getAssets(assetType = undefined) {
+  async getAssets({ assetType = undefined, onlyPublished = true }) {
     if (!this.customerUnit || !this.businessUnit) return;
     const url = `${EXPOSURE_API_ENDPOINT.replace("v2", "v1")}/customer/${
       this.customerUnit
     }/businessunit/${this.businessUnit}/content/asset`;
     return await assetService.getAllAssets({
       url,
+      onlyPublished,
       ...(assetType && { assetType })
     });
   }
