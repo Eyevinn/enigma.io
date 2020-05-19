@@ -57,6 +57,7 @@ Where the metadata object should be constructed in the following format
 
 - [`linkAssets`](src/api/mgmt.js#L147) Create a link from srcAssetId to destAssetId.
 - [`ingestVideo`](src/api/mgmt.js#L158) Ingest a video file to an asset. The URL to the video file must be accessible by the platform.
+- [`publishAsset`](src/api/mgmt.js#L169) Add a product publication to an asset.
 
 ## Exposure API
 
@@ -91,8 +92,8 @@ if (hlsFormat) {
 ```
 
 - [`getAssets`](src/api/exposure.js#L34) Get all assets of a specific asset type.
-- [`getAsset`](src/api/exposure.js#L45) Get a specific asset by its asset ID.
-- [`resolveSerie`](src/api/exposure.js#53) Get all assets for a serie and structured in a series/seasons/episodes structure.
+- [`getAsset`](src/api/exposure.js#L46) Get a specific asset by its asset ID.
+- [`resolveSerie`](src/api/exposure.js#54) Get all assets for a serie and structured in a series/seasons/episodes structure.
 
 
 ## Run the tests

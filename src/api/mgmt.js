@@ -27,7 +27,7 @@ class EnigmaManagementAPI {
     return await endUserService.getUsers({
       url,
       bearerToken: this.bearerToken,
-      limit
+      limit,
     });
   }
 
@@ -36,7 +36,7 @@ class EnigmaManagementAPI {
     const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user/${username}`;
     return await endUserService.getUser({
       url,
-      bearerToken: this.bearerToken
+      bearerToken: this.bearerToken,
     });
   }
 
@@ -48,7 +48,7 @@ class EnigmaManagementAPI {
       bearerToken: this.bearerToken,
       username,
       ...(labels && { labels }),
-      ...(authenticationType && { authenticationType })
+      ...(authenticationType && { authenticationType }),
     });
   }
 
@@ -58,7 +58,7 @@ class EnigmaManagementAPI {
     return await endUserService.createUsers({
       url,
       bearerToken: this.bearerToken,
-      users
+      users,
     });
   }
 
@@ -70,7 +70,7 @@ class EnigmaManagementAPI {
     return await endUserService.setLabels({
       url,
       bearerToken: this.bearerToken,
-      labels
+      labels,
     });
   }
 
@@ -83,7 +83,7 @@ class EnigmaManagementAPI {
     return await productOfferingsService.getOfferings({
       url,
       bearerToken: this.bearerToken,
-      onlyPurchasable
+      onlyPurchasable,
     });
   }
 
@@ -92,7 +92,7 @@ class EnigmaManagementAPI {
     const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/productoffering/${productOfferingId}`;
     return await productOfferingsService.getOffering({
       url,
-      bearerToken: this.bearerToken
+      bearerToken: this.bearerToken,
     });
   }
 
@@ -102,7 +102,7 @@ class EnigmaManagementAPI {
     return await productOfferingsService.setLabels({
       url,
       bearerToken: this.bearerToken,
-      keyValueLabel
+      keyValueLabel,
     });
   }
 
@@ -111,7 +111,7 @@ class EnigmaManagementAPI {
     const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}/purchase`;
     return await endUserService.getPurchases({
       url,
-      bearerToken: this.bearerToken
+      bearerToken: this.bearerToken,
     });
   }
 
@@ -120,7 +120,7 @@ class EnigmaManagementAPI {
     const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}/purchase/${offeringId}`;
     return await productOfferingsService.performPurchase({
       url,
-      bearerToken: this.bearerToken
+      bearerToken: this.bearerToken,
     });
   }
 
@@ -129,7 +129,7 @@ class EnigmaManagementAPI {
     const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}/purchase/${offeringId}`;
     return await productOfferingsService.removePurchase({
       url,
-      bearerToken: this.bearerToken
+      bearerToken: this.bearerToken,
     });
   }
 
@@ -140,7 +140,7 @@ class EnigmaManagementAPI {
       url,
       title,
       bearerToken: this.bearerToken,
-      ...(metadata && { metadata })
+      ...(metadata && { metadata }),
     });
   }
 
@@ -151,7 +151,7 @@ class EnigmaManagementAPI {
       url,
       srcAssetId,
       destAssetId,
-      bearerToken: this.bearerToken
+      bearerToken: this.bearerToken,
     });
   }
 
@@ -162,7 +162,25 @@ class EnigmaManagementAPI {
       url,
       assetId,
       videoUrl,
-      bearerToken: this.bearerToken
+      bearerToken: this.bearerToken,
+    });
+  }
+
+  async publishAsset(
+    assetId,
+    productId,
+    startDate = new Date(),
+    publicationDurationInYears = 1
+  ) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${MGMT_API_ENDPOINT}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/publication`;
+    return await ingestService.publishAsset({
+      url,
+      assetId,
+      productId,
+      startDate,
+      publicationDurationInYears,
+      bearerToken: this.bearerToken,
     });
   }
 }

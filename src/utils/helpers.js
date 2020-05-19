@@ -7,6 +7,12 @@ const generateId = () => {
   );
 };
 
+const appendYearsToDate = (date, yearsToAppend) => {
+  const end = date.getFullYear() + yearsToAppend;
+  return new Date(end.toString());
+};
+
 module.exports = {
-  generateId
+  generateId,
+  appendYearsToDate,
 };
