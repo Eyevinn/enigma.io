@@ -2,6 +2,7 @@ const fetch = require("node-fetch").default;
 const uuid = require("uuid/v1");
 const debug = require("debug")("ingest-service");
 const templates = require("../utils/templates");
+const utils = require("../utils/helpers");
 
 const createAsset = async ({ url, title, bearerToken, metadata }) => {
   const id = uuid();
@@ -70,9 +71,26 @@ const ingestVideo = async ({ url, assetId, videoUrl, bearerToken }) => {
   }
 };
 
-const publishAsset = async ({ url, assetId, productId, bearerToken }) => {
+const publishAsset = async ({
+  url,
+  assetId,
+  productId,
+  startDate,
+  publicationDurationInYears,
+  bearerToken,
+}) => {
   const id = uuid();
-  const publicationXML = templates.publicationXML({ id, assetId, productId });
+  const endDate = utils.appendYearsToDate(
+    startDate,
+    publicationDurationInYears
+  );
+  const publicationXML = templates.publicationXML({
+    id,
+    assetId,
+    productId,
+    startDate,
+    endDate,
+  });
 
   const response = await fetch(url, {
     headers: {

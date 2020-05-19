@@ -166,13 +166,20 @@ class EnigmaManagementAPI {
     });
   }
 
-  async publishAsset(assetId, productId) {
+  async publishAsset(
+    assetId,
+    productId,
+    startDate = new Date(),
+    publicationDurationInYears = 1
+  ) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     const url = `${MGMT_API_ENDPOINT}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/publication`;
     return await ingestService.publishAsset({
       url,
       assetId,
       productId,
+      startDate,
+      publicationDurationInYears,
       bearerToken: this.bearerToken,
     });
   }

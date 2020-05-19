@@ -68,7 +68,7 @@ const videoIngestXML = ({ id, videoUrl, assetId }) => {
   `;
 };
 
-const publicationXML = ({ id, assetId, productId }) => {
+const publicationXML = ({ id, assetId, productId, startDate, endDate }) => {
   return `<?xml version="1.0" encoding="UTF-8"?>
     <publish-metadata
       xmlns="http://video-metadata.emp.ebsd.ericsson.net/publish-metadata/v1"
@@ -81,9 +81,9 @@ const publicationXML = ({ id, assetId, productId }) => {
           <id>${id}</id>
           <assetIdRef>${assetId}</assetIdRef>
           <!--  how does this relate to asset rights? -->
-          <startTime>${new Date().toISOString()}</startTime>
-          <endTime>${new Date("2030").toISOString()}</endTime>
-          <publishTime>${new Date().toISOString()}</publishTime>
+          <startTime>${startDate.toISOString()}</startTime>
+          <endTime>${endDate.toISOString()}</endTime>
+          <publishTime>${startDate.toISOString()}</publishTime>
           <publicationRights>
             <productList>
               <product>${productId}</product>
