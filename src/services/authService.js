@@ -10,24 +10,24 @@ const authenticate = async ({ url, username, password }) => {
       passwordTuples: [
         {
           algorithm: {
-            algorithmName: "CLEAR"
+            algorithmName: "CLEAR",
           },
-          value: password
-        }
-      ]
+          value: password,
+        },
+      ],
     },
     device: {
       deviceId: deviceId,
-      name: "enigma.io SDK"
-    }
+      name: "enigma.io SDK",
+    },
   };
   debug(authRequest);
   const response = await fetch(url, {
     method: "post",
     body: JSON.stringify(authRequest),
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   });
   const auth = await response.json();
   if (response.ok) {
@@ -39,5 +39,5 @@ const authenticate = async ({ url, username, password }) => {
 };
 
 module.exports = {
-  authenticate
+  authenticate,
 };

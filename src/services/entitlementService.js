@@ -4,8 +4,8 @@ const debug = require("debug")("entitlement-service");
 const play = async ({ url, sessionToken }) => {
   const response = await fetch(url, {
     headers: {
-      Authorization: "Bearer " + sessionToken
-    }
+      Authorization: "Bearer " + sessionToken,
+    },
   });
   const playResponse = await response.json();
   if (response.ok) {
@@ -17,5 +17,5 @@ const play = async ({ url, sessionToken }) => {
 };
 
 module.exports = {
-  play
+  play,
 };

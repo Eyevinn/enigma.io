@@ -28,7 +28,6 @@ describe("assetService", () => {
 
   describe("getAllAssets", () => {
     it("should return a list of assets", async () => {
-
       const url = `${EXPOSURE_API_ENDPOINT}/customer/${customerUnit}/businessunit/${businessUnit}/content/asset`;
       const assets = await assetService.getAllAssets({ url });
       expect(assets).toBeTruthy();

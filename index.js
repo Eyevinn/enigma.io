@@ -3,5 +3,5 @@ const ExposureAPI = require("./src/api/exposure");
 
 module.exports = {
   ManagementAPI: EnigmaManagementAPI,
-  ExposureAPI
+  ExposureAPI,
 };

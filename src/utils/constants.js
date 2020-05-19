@@ -6,9 +6,9 @@ const AssetTypes = {
   TV_CHANNEL: "TV_CHANNEL",
   AD: "AD",
   LIVE_EVENT: "LIVE_EVENT",
-  OTHER: "OTHER"
+  OTHER: "OTHER",
 };
 
 module.exports = {
-  AssetTypes
+  AssetTypes,
 };

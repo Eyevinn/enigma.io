@@ -10,7 +10,7 @@ const getUsers = async ({ url, bearerToken, limit = undefined }) => {
       `${url}?pageNumber=${page}` +
         (limit ? `&pageSize=${limit < 100 ? limit : 100}` : ""),
       {
-        headers: { Authorization: `Basic ${bearerToken}` }
+        headers: { Authorization: `Basic ${bearerToken}` },
       }
     );
     let json = await response.json();
@@ -29,7 +29,7 @@ const getUsers = async ({ url, bearerToken, limit = undefined }) => {
 
 const getUser = async ({ url, bearerToken }) => {
   const response = await fetch(url, {
-    headers: { Authorization: `Basic ${bearerToken}` }
+    headers: { Authorization: `Basic ${bearerToken}` },
   });
   const user = await response.json();
   if (response.ok) {
@@ -44,21 +44,21 @@ const createUser = async ({
   bearerToken,
   username,
   labels,
-  authenticationType = "DEFAULT"
+  authenticationType = "DEFAULT",
 }) => {
   const userObject = {
     authenticationType,
     referenceId: username + helpers.generateId(),
     username,
-    ...(labels && { labels })
+    ...(labels && { labels }),
   };
   const response = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Basic ${bearerToken}`
+      Authorization: `Basic ${bearerToken}`,
     },
-    body: JSON.stringify(userObject)
+    body: JSON.stringify(userObject),
   });
   const user = await response.json();
   if (response.ok) {
@@ -70,15 +70,15 @@ const createUser = async ({
 
 const createUsers = async ({ url, bearerToken, users }) => {
   const bulk = {
-    requests: users
+    requests: users,
   };
   const response = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Basic ${bearerToken}`
+      Authorization: `Basic ${bearerToken}`,
     },
-    body: JSON.stringify(bulk)
+    body: JSON.stringify(bulk),
   });
   const user = await response.json();
   if (response.ok) {
@@ -90,15 +90,15 @@ const createUsers = async ({ url, bearerToken, users }) => {
 
 const setLabels = async ({ url, bearerToken, labels /* key-val array */ }) => {
   const requestBody = {
-    accountLabels: labels
+    accountLabels: labels,
   };
   const response = await fetch(url, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Basic ${bearerToken}`
+      Authorization: `Basic ${bearerToken}`,
     },
-    body: JSON.stringify(requestBody)
+    body: JSON.stringify(requestBody),
   });
   const responseBody = await response.json();
   if (response.ok) {
@@ -110,7 +110,7 @@ const setLabels = async ({ url, bearerToken, labels /* key-val array */ }) => {
 
 const getPurchases = async ({ url, bearerToken }) => {
   const response = await fetch(url, {
-    headers: { Authorization: `Basic ${bearerToken}` }
+    headers: { Authorization: `Basic ${bearerToken}` },
   });
   const purchases = await response.json();
   if (response.ok) {
@@ -126,5 +126,5 @@ module.exports = {
   createUser,
   createUsers,
   setLabels,
-  getPurchases
+  getPurchases,
 };

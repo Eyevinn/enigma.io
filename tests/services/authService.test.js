@@ -18,7 +18,7 @@ describe("authService", () => {
       const result = await authService.authenticate({
         url,
         username,
-        password
+        password,
       });
       expect(result).not.toBeFalsy();
       expect(typeof result.sessionToken).toBe("string");
@@ -31,7 +31,7 @@ describe("authService", () => {
         await authService.authenticate({
           url,
           username,
-          password
+          password,
         });
       } catch (error) {
         errorThrown = true;
@@ -45,7 +45,7 @@ describe("authService", () => {
         await authService.authenticate({
           url,
           username: password,
-          password: username
+          password: username,
         });
       } catch (error) {
         errorThrown = true;
