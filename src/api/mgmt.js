@@ -185,15 +185,16 @@ class EnigmaManagementAPI {
     });
   }
 
-  async createProduct({
-    productId,
+  async createProduct(
+    id,
     name,
     description = "",
     anonymousAllowed = false,
-    entitlementRequired = true,
-  }) {
+    entitlementRequired = true
+  ) {
     const product = {
-      id: productId,
+      id,
+      externalId: id,
       name,
       description,
       anonymousAllowed,
