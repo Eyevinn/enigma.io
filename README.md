@@ -21,27 +21,27 @@ const managementApi = new EnigmaIO.ManagementAPI("Customer", "BusinessUnit");
 
 #### Users
 
-- [`getEndUsers`](src/api/mgmt.js#L24) Retrieve a list of end users.
-- [`getEndUser`](src/api/mgmt.js#L34) Retrieve a specific end user.
-- [`createUser`](src/api/mgmt.js#L43) Create a single end user.
-- [`createUsers`](src/api/mgmt.js#L55) Bulk create users.
-- [`setLabelsForUser`](src/api/mgmt.js#L65) Set labels on an existing user.
+- [`getEndUsers`](src/api/mgmt.js#L25) Retrieve a list of end users.
+- [`getEndUser`](src/api/mgmt.js#L35) Retrieve a specific end user.
+- [`createUser`](src/api/mgmt.js#L44) Create a single end user.
+- [`createUsers`](src/api/mgmt.js#L56) Bulk create users.
+- [`setLabelsForUser`](src/api/mgmt.js#L66) Set labels on an existing user.
 
 #### Products & Product Offerings
 
-- [`getProductOfferings`](src/api/mgmt.js#L77) Retrieve a list of productOfferings.
-- [`getProductOffering`](src/api/mgmt.js#L90) Retrieve a specific productOffering.
-- [`setLabelsForProductOffering`](src/api/mgmt.js#L99) Set labels on an existing productOffering.
+- [`getProductOfferings`](src/api/mgmt.js#L78) Retrieve a list of productOfferings.
+- [`getProductOffering`](src/api/mgmt.js#L91) Retrieve a specific productOffering.
+- [`setLabelsForProductOffering`](src/api/mgmt.js#L100) Set labels on an existing productOffering.
 
 #### Purchases
 
-- [`getPurchases`](src/api/mgmt.js#L109) Retrieve active purchases for an account.
-- [`performPurchase`](src/api/mgmt.js#L118) Performs a purchase of a given productOffering for a given account.
-- [`removePurchase](src/api/mgmt.js#L127) Remove a purchased productOffering and its access from a given account.
+- [`getPurchases`](src/api/mgmt.js#L110) Retrieve active purchases for an account.
+- [`performPurchase`](src/api/mgmt.js#L119) Performs a purchase of a given productOffering for a given account.
+- [`removePurchase](src/api/mgmt.js#L128) Remove a purchased productOffering and its access from a given account.
 
 #### Assets
 
-- [`createAsset`](src/api/mgmt.js#L136) Create an asset
+- [`createAsset`](src/api/mgmt.js#L137) Create an asset
 
 Where the metadata object should be constructed in the following format
 ```js
@@ -55,9 +55,10 @@ Where the metadata object should be constructed in the following format
 }
 ```
 
-- [`linkAssets`](src/api/mgmt.js#L147) Create a link from srcAssetId to destAssetId.
-- [`ingestVideo`](src/api/mgmt.js#L158) Ingest a video file to an asset. The URL to the video file must be accessible by the platform.
-- [`publishAsset`](src/api/mgmt.js#L169) Add a product publication to an asset.
+- [`linkAssets`](src/api/mgmt.js#L148) Create a link from srcAssetId to destAssetId.
+- [`ingestVideo`](src/api/mgmt.js#L159) Ingest a video file to an asset. The URL to the video file must be accessible by the platform.
+- [`publishAsset`](src/api/mgmt.js#L170) Add a product publication to an asset.
+- [`createProduct`](src/api/mgmt.js#L188) Create a product in the platform
 
 ## Exposure API
 

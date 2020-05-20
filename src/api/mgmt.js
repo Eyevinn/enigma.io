@@ -4,6 +4,7 @@ const base64 = require("base-64");
 const endUserService = require("../services/endUserService");
 const productOfferingsService = require("../services/productOfferingsService");
 const ingestService = require("../services/ingestService");
+const productsService = require("../services/productsService");
 
 const MGMT_API_ENDPOINT = "https://managementapi.emp.ebsd.ericsson.net";
 const apiKeyId = process.env.API_KEY_ID;
@@ -181,6 +182,29 @@ class EnigmaManagementAPI {
       startDate,
       publicationDurationInYears,
       bearerToken: this.bearerToken,
+    });
+  }
+
+  async createProduct({
+    productId,
+    name,
+    description = "",
+    anonymousAllowed = false,
+    entitlementRequired = true,
+  }) {
+    const product = {
+      id: productId,
+      name,
+      description,
+      anonymousAllowed,
+      entitlementRequired,
+    };
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${MGMT_API_ENDPOINT}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/product`;
+    return await productsService.createProduct({
+      url,
+      bearerToken: this.bearerToken,
+      product,
     });
   }
 }
