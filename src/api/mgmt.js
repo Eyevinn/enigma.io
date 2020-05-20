@@ -4,6 +4,7 @@ const base64 = require("base-64");
 const endUserService = require("../services/endUserService");
 const productOfferingsService = require("../services/productOfferingsService");
 const ingestService = require("../services/ingestService");
+const productsService = require("../services/productsService");
 
 const MGMT_API_ENDPOINT = "https://managementapi.emp.ebsd.ericsson.net";
 const apiKeyId = process.env.API_KEY_ID;
@@ -182,6 +183,45 @@ class EnigmaManagementAPI {
       publicationDurationInYears,
       bearerToken: this.bearerToken,
     });
+  }
+
+  async createProduct(
+    id,
+    name,
+    description = "",
+    anonymousAllowed = false,
+    entitlementRequired = true
+  ) {
+    const product = {
+      id,
+      externalId: id,
+      name,
+      description,
+      anonymousAllowed,
+      entitlementRequired,
+    };
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${MGMT_API_ENDPOINT}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/product`;
+    return await productsService.createProduct({
+      url,
+      bearerToken: this.bearerToken,
+      product,
+    });
+  }
+
+  async getProducts() {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${MGMT_API_ENDPOINT}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/product`;
+    return await productsService.getProducts({
+      url,
+      bearerToken: this.bearerToken,
+    });
+  }
+
+  async getProduct(productId) {
+    const products = await this.getProducts();
+    if (!products) return;
+    return products.find((p) => p.externalId === productId);
   }
 }
 
