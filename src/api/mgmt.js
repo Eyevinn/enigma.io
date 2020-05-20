@@ -208,6 +208,21 @@ class EnigmaManagementAPI {
       product,
     });
   }
+
+  async getProducts() {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${MGMT_API_ENDPOINT}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/product`;
+    return await productsService.getProducts({
+      url,
+      bearerToken: this.bearerToken,
+    });
+  }
+
+  async getProduct(productId) {
+    const products = await this.getProducts();
+    if (!products) return;
+    return products.find((p) => p.externalId === productId);
+  }
 }
 
 module.exports = EnigmaManagementAPI;
