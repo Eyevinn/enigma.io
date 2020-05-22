@@ -185,11 +185,11 @@ class EnigmaManagementAPI {
     });
   }
 
-  async unpublishAsset(assetId, productId = undefined) {
+  async unpublishAsset(assetId, publicationId = undefined) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     let url = `${MGMT_API_ENDPOINT}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/asset/${assetId}/publication`;
-    if (productId) {
-      url += `/${productId}`;
+    if (publicationId) {
+      url += `/${publicationId}`;
     }
     return await ingestService.unpublishAsset({
       url,
