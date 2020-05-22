@@ -114,7 +114,6 @@ const unpublishAsset = async ({ url, bearerToken }) => {
   const response = await fetch(url, {
     headers: {
       Authorization: `Basic ${bearerToken}`,
-      "Content-Type": "application/xml",
     },
     method: "DELETE",
   });
