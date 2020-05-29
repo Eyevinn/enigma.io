@@ -110,9 +110,27 @@ const publishAsset = async ({
   }
 };
 
+const unpublishAsset = async ({ url, bearerToken }) => {
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Basic ${bearerToken}`,
+    },
+    method: "DELETE",
+  });
+  const unpublishResponse = await response.json();
+  if (response.ok) {
+    debug(unpublishResponse);
+    return unpublishResponse;
+  } else {
+    debug(response.headers);
+    throw unpublishResponse.message;
+  }
+};
+
 module.exports = {
   createAsset,
   linkAssets,
   ingestVideo,
   publishAsset,
+  unpublishAsset,
 };
