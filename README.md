@@ -37,7 +37,7 @@ const managementApi = new EnigmaIO.ManagementAPI("Customer", "BusinessUnit");
 
 - [`getPurchases`](src/api/mgmt.js#L110) Retrieve active purchases for an account.
 - [`performPurchase`](src/api/mgmt.js#L119) Performs a purchase of a given productOffering for a given account.
-- [`removePurchase](src/api/mgmt.js#L128) Remove a purchased productOffering and its access from a given account.
+- [`removePurchase`](src/api/mgmt.js#L128) Remove a purchased productOffering and its access from a given account.
 
 #### Assets
 
