@@ -4,7 +4,7 @@ describe("MGMT api", () => {
   it("should use proper exposure url", async () => {
     const ProdMgmtApi = new MgmtAPI("Customer", "BusinessUnit");
     const StageMgmtApi = new MgmtAPI("Customer", "BusinessUnit", {
-      environment: "stage"
+      environment: "stage",
     });
     expect(ProdMgmtApi.baseUrl).toBe(
       "https://managementapi.emp.ebsd.ericsson.net"

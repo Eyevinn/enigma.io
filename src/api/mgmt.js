@@ -19,7 +19,7 @@ class EnigmaManagementAPI extends BaseApi {
     debug("API_KEY_ID=%s, API_KEY_SECRET=*****", apiKeyId);
     options = {
       environment: "production",
-      ...options
+      ...options,
     };
     const url =
       options.environment === "stage"
@@ -124,7 +124,7 @@ class EnigmaManagementAPI extends BaseApi {
     return await productOfferingsService.setLabels({
       url,
       bearerToken: this.bearerToken,
-      keyValueLabel
+      keyValueLabel,
     });
   }
 

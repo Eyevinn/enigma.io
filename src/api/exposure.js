@@ -14,7 +14,7 @@ class ExposureAPI extends BaseApi {
   constructor(customerUnit, businessUnit, options) {
     options = {
       environment: "production",
-      ...options
+      ...options,
     };
     const url =
       options.environment === "stage"

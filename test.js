@@ -6,7 +6,7 @@ require("dotenv-vars");
 async function go() {
   const endUsers = await mgmtApi.getEndUsers();
   if (!endUsers) return;
-  endUsers.forEach(endUser => {
+  endUsers.forEach((endUser) => {
     console.log(`${endUser.accountId}: ${endUser.details.emailAddress}`);
   });
 }
@@ -19,7 +19,7 @@ async function getAssets() {
     console.log(err);
   }
   if (!assets) return;
-  assets.forEach(asset => {
+  assets.forEach((asset) => {
     console.log(asset.localized[0].title);
   });
 }

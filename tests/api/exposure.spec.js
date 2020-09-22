@@ -4,7 +4,7 @@ describe("Exposure api", () => {
   it("should use proper exposure url", async () => {
     const ProdExposureApi = new ExposureAPI("Customer", "BusinessUnit");
     const StageExposureApi = new ExposureAPI("Customer", "BusinessUnit", {
-      environment: "stage"
+      environment: "stage",
     });
     expect(ProdExposureApi.baseUrl).toBe(
       "https://exposureapi.emp.ebsd.ericsson.net/v2"
