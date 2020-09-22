@@ -53,6 +53,15 @@ class EnigmaManagementAPI extends BaseApi {
     });
   }
 
+  async getEndUserById(accountId) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${MGMT_API_ENDPOINT}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}`;
+    return await endUserService.getUser({
+      url,
+      bearerToken: this.bearerToken,
+    });
+  }
+
   async createUser(username, labels, authenticationType) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     const url = `${this.baseUrl}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user`;
