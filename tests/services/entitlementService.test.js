@@ -18,7 +18,7 @@ describe("entitlementService", () => {
       const authResponse = await authService.authenticate({
         url: authUrl,
         username,
-        password
+        password,
       });
       if (!authResponse || !authResponse.sessionToken)
         throw new Error("Couldn't authorize");
@@ -28,11 +28,11 @@ describe("entitlementService", () => {
     it("should respond with a hls manifest included", async () => {
       const result = await entitlementService.play({
         url: playUrl,
-        sessionToken
+        sessionToken,
       });
       expect(result).not.toBeFalsy();
       expect(result).toHaveProperty("formats");
-      const hlsExists = result.formats.find(f => f.format === "HLS");
+      const hlsExists = result.formats.find((f) => f.format === "HLS");
       expect(hlsExists).toBeTruthy();
     });
   });

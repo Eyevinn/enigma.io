@@ -4,6 +4,7 @@ const base64 = require("base-64");
 const endUserService = require("../services/endUserService");
 const productOfferingsService = require("../services/productOfferingsService");
 const ingestService = require("../services/ingestService");
+const productsService = require("../services/productsService");
 
 const BaseApi = require("../utils/baseApi");
 
@@ -39,7 +40,7 @@ class EnigmaManagementAPI extends BaseApi {
     return await endUserService.getUsers({
       url,
       bearerToken: this.bearerToken,
-      limit
+      limit,
     });
   }
 
@@ -48,18 +49,19 @@ class EnigmaManagementAPI extends BaseApi {
     const url = `${this.baseUrl}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user/${username}`;
     return await endUserService.getUser({
       url,
-      bearerToken: this.bearerToken
+      bearerToken: this.bearerToken,
     });
   }
 
-  async createUser(username, labels) {
+  async createUser(username, labels, authenticationType) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     const url = `${this.baseUrl}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/user`;
     return await endUserService.createUser({
       url,
       bearerToken: this.bearerToken,
       username,
-      ...(labels && { labels })
+      ...(labels && { labels }),
+      ...(authenticationType && { authenticationType }),
     });
   }
 
@@ -69,7 +71,7 @@ class EnigmaManagementAPI extends BaseApi {
     return await endUserService.createUsers({
       url,
       bearerToken: this.bearerToken,
-      users
+      users,
     });
   }
 
@@ -81,16 +83,39 @@ class EnigmaManagementAPI extends BaseApi {
     return await endUserService.setLabels({
       url,
       bearerToken: this.bearerToken,
-      labels
+      labels,
     });
   }
 
-  async getProductOfferings() {
+  async getProductOfferings(labelRule = undefined, onlyPurchasable = false) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
-    const url = `${this.baseUrl}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/productoffering`;
+    const query = labelRule
+      ? `?labelFiltering=true&labelFilter=${labelRule}`
+      : `?labelFiltering=false`;
+    const url = `${this.baseUrl}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/productoffering${query}`;
     return await productOfferingsService.getOfferings({
       url,
-      bearerToken: this.bearerToken
+      bearerToken: this.bearerToken,
+      onlyPurchasable,
+    });
+  }
+
+  async getProductOffering(productOfferingId) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${this.baseUrl}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/productoffering/${productOfferingId}`;
+    return await productOfferingsService.getOffering({
+      url,
+      bearerToken: this.bearerToken,
+    });
+  }
+
+  async setLabelsForProductOffering(productOfferingId, keyValueLabel) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${this.baseUrl}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/productoffering/${productOfferingId}/labelRules`;
+    return await productOfferingsService.setLabels({
+      url,
+      bearerToken: this.bearerToken,
+      keyValueLabel
     });
   }
 
@@ -99,7 +124,7 @@ class EnigmaManagementAPI extends BaseApi {
     const url = `${this.baseUrl}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}/purchase`;
     return await endUserService.getPurchases({
       url,
-      bearerToken: this.bearerToken
+      bearerToken: this.bearerToken,
     });
   }
 
@@ -108,7 +133,16 @@ class EnigmaManagementAPI extends BaseApi {
     const url = `${this.baseUrl}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}/purchase/${offeringId}`;
     return await productOfferingsService.performPurchase({
       url,
-      bearerToken: this.bearerToken
+      bearerToken: this.bearerToken,
+    });
+  }
+
+  async removePurchase(accountId, offeringId) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${this.baseUrl}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}/purchase/${offeringId}`;
+    return await productOfferingsService.removePurchase({
+      url,
+      bearerToken: this.bearerToken,
     });
   }
 
@@ -119,7 +153,7 @@ class EnigmaManagementAPI extends BaseApi {
       url,
       title,
       bearerToken: this.bearerToken,
-      ...(metadata && { metadata })
+      ...(metadata && { metadata }),
     });
   }
 
@@ -130,7 +164,7 @@ class EnigmaManagementAPI extends BaseApi {
       url,
       srcAssetId,
       destAssetId,
-      bearerToken: this.bearerToken
+      bearerToken: this.bearerToken,
     });
   }
 
@@ -141,8 +175,77 @@ class EnigmaManagementAPI extends BaseApi {
       url,
       assetId,
       videoUrl,
-      bearerToken: this.bearerToken
+      bearerToken: this.bearerToken,
     });
+  }
+
+  async publishAsset(
+    assetId,
+    productId,
+    startDate = new Date(),
+    publicationDurationInYears = 1
+  ) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${this.baseUrl}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/publication`;
+    return await ingestService.publishAsset({
+      url,
+      assetId,
+      productId,
+      startDate,
+      publicationDurationInYears,
+      bearerToken: this.bearerToken,
+    });
+  }
+
+  async unpublishAsset(assetId, publicationId = undefined) {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    let url = `${this.baseUrl}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/asset/${assetId}/publication`;
+    if (publicationId) {
+      url += `/${publicationId}`;
+    }
+    return await ingestService.unpublishAsset({
+      url,
+      bearerToken: this.bearerToken,
+    });
+  }
+
+  async createProduct(
+    id,
+    name,
+    description = "",
+    anonymousAllowed = false,
+    entitlementRequired = true
+  ) {
+    const product = {
+      id,
+      externalId: id,
+      name,
+      description,
+      anonymousAllowed,
+      entitlementRequired,
+    };
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${this.baseUrl}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/product`;
+    return await productsService.createProduct({
+      url,
+      bearerToken: this.bearerToken,
+      product,
+    });
+  }
+
+  async getProducts() {
+    if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
+    const url = `${this.baseUrl}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/product`;
+    return await productsService.getProducts({
+      url,
+      bearerToken: this.bearerToken,
+    });
+  }
+
+  async getProduct(productId) {
+    const products = await this.getProducts();
+    if (!products) return;
+    return products.find((p) => p.externalId === productId);
   }
 }
 

@@ -1,8 +1,7 @@
-const ManagementAPI = require("./index.js")("mgmt");
-const ExposureAPI = require("./index.js")("exposure");
-
-const mgmtApi = new ManagementAPI("Eyevinn", "STSWE");
-const exposureApi = new ExposureAPI("Eyevinn", "STSWE");
+const EnigmaIO = require("./index");
+const mgmtApi = new EnigmaIO.ManagementAPI("Eyevinn", "STSWE");
+const exposureApi = new EnigmaIO.ExposureAPI("Eyevinn", "STSWE");
+require("dotenv-vars");
 
 async function go() {
   const endUsers = await mgmtApi.getEndUsers();
@@ -15,7 +14,7 @@ async function go() {
 async function getAssets() {
   let assets;
   try {
-    assets = await exposureApi.getAssets();
+    assets = await exposureApi.getAssets({});
   } catch (err) {
     console.log(err);
   }
@@ -25,4 +24,6 @@ async function getAssets() {
   });
 }
 
-getAssets();
+// getAssets();
+
+go();

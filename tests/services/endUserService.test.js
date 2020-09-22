@@ -20,7 +20,7 @@ describe("endUserService", () => {
       const usersResponse = await endUserService.getUsers({
         url,
         bearerToken,
-        limit
+        limit,
       });
       expect(usersResponse).toBeTruthy();
       expect(usersResponse.length).toBe(5);
@@ -35,7 +35,7 @@ describe("endUserService", () => {
         await endUserService.getUsers({
           url,
           bearerToken,
-          limit
+          limit,
         });
       } catch (error) {
         errorThrown = true;
@@ -52,7 +52,7 @@ describe("endUserService", () => {
         await endUserService.getUsers({
           url,
           bearerToken: "12345",
-          limit
+          limit,
         });
       } catch (error) {
         errorThrown = true;
@@ -67,7 +67,7 @@ describe("endUserService", () => {
       const url = `${MGMT_API_ENDPOINT}/customer/${customerUnit}/businessunit/${businessUnit}/enduseraccount/user/${username}`;
       const singleUser = await endUserService.getUser({
         url,
-        bearerToken: bearerToken
+        bearerToken: bearerToken,
       });
       expect(singleUser).toBeTruthy();
       expect(singleUser.details.username).toEqual(username);
@@ -83,7 +83,7 @@ describe("endUserService", () => {
       try {
         await endUserService.getUser({
           url,
-          bearerToken: bearerToken
+          bearerToken: bearerToken,
         });
       } catch (error) {
         errorThrown = true;
@@ -99,7 +99,7 @@ describe("endUserService", () => {
       try {
         await endUserService.getUser({
           url,
-          bearerToken: "1234"
+          bearerToken: "1234",
         });
       } catch (error) {
         errorThrown = true;

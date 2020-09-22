@@ -31,7 +31,7 @@ class ExposureAPI extends BaseApi {
     return await authService.authenticate({
       url,
       username,
-      password
+      password,
     });
   }
 
@@ -40,18 +40,19 @@ class ExposureAPI extends BaseApi {
     const url = `${this.baseUrl}/customer/${this.customerUnit}/businessunit/${this.businessUnit}/entitlement/${assetId}/play`;
     return await entitlementService.play({
       url,
-      sessionToken
+      sessionToken,
     });
   }
 
-  async getAssets(assetType = undefined) {
+  async getAssets({ assetType = undefined, onlyPublished = true }) {
     if (!this.customerUnit || !this.businessUnit) return;
     const url = `${this.baseUrl.replace("v2", "v1")}/customer/${
       this.customerUnit
     }/businessunit/${this.businessUnit}/content/asset`;
     return await assetService.getAllAssets({
       url,
-      ...(assetType && { assetType })
+      onlyPublished,
+      ...(assetType && { assetType }),
     });
   }
 

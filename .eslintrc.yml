@@ -19,6 +19,8 @@ rules:
     - error
   arrow-body-style: off
   no-console: off
+  no-dupe-else-if: off
+  no-setter-return: off
 
 
 parser: babel-eslint
