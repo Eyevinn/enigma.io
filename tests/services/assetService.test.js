@@ -1,5 +1,4 @@
 const assetService = require("../../src/services/assetService");
-const constants = require("../../src/utils/constants");
 
 const EXPOSURE_API_ENDPOINT = "https://exposureapi.emp.ebsd.ericsson.net/v1";
 const customerUnit = "Eyevinn";
