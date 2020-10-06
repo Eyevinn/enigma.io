@@ -120,7 +120,7 @@ class EnigmaManagementAPI extends BaseApi {
 
   async setLabelsForProductOffering(productOfferingId, keyValueLabel) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
-    const url = `${this.baseUrl}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/productoffering/${productOfferingId}/labelRules`;
+    const url = `${this.baseUrl}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/productoffering/${productOfferingId}/labelrules`;
     return await productOfferingsService.setLabels({
       url,
       bearerToken: this.bearerToken,
