@@ -69,11 +69,10 @@ const removePurchase = async ({ url, bearerToken }) => {
     method: "DELETE",
     headers: { Authorization: `Basic ${bearerToken}` },
   });
-  let json = await response.json();
   if (response.ok) {
-    return json;
+    return "ok";
   } else {
-    throw json.message;
+    throw "couldn't remove purchase";
   }
 };
 
