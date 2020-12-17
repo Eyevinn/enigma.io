@@ -42,11 +42,11 @@ const managementApi = new EnigmaIO.ManagementAPI("Customer", "BusinessUnit", { e
 
 - [`getPurchases`](src/api/mgmt.js#L131) Retrieve active purchases for an account.
 - [`performPurchase`](src/api/mgmt.js#L140) Performs a purchase of a given productOffering for a given account.
-- [`removePurchase`](src/api/mgmt.js#L149) Remove a purchased productOffering and its access from a given account.
+- [`removePurchase`](src/api/mgmt.js#L150) Remove a purchased productOffering and its access from a given account.
 
 #### Assets
 
-- [`createAsset`](src/api/mgmt.js#L158) Create an asset
+- [`createAsset`](src/api/mgmt.js#L159) Create an asset
 
 Where the metadata object should be constructed in the following format
 ```js
@@ -60,13 +60,13 @@ Where the metadata object should be constructed in the following format
 }
 ```
 
-- [`linkAssets`](src/api/mgmt.js#L169) Create a link from srcAssetId to destAssetId.
-- [`ingestVideo`](src/api/mgmt.js#L180) Ingest a video file to an asset. The URL to the video file must be accessible by the platform.
-- [`publishAsset`](src/api/mgmt.js#L191) Add a product publication to an asset.
-- [`unpublishAsset`](src/api/mgmt.js#209) Remove one single publication, or all publications, on an asset.
-- [`createProduct`](src/api/mgmt.js#L221) Create a product in the platform
-- [`getProducts`](src/api/mgmt.js#245) Get all products in the platform
-- [`getProduct`](src/api/mgmt.js#254) Get a specific product in the platform
+- [`linkAssets`](src/api/mgmt.js#L170) Create a link from srcAssetId to destAssetId.
+- [`ingestVideo`](src/api/mgmt.js#L181) Ingest a video file to an asset. The URL to the video file must be accessible by the platform.
+- [`publishAsset`](src/api/mgmt.js#L192) Add a product publication to an asset.
+- [`unpublishAsset`](src/api/mgmt.js#210) Remove one single publication, or all publications, on an asset.
+- [`createProduct`](src/api/mgmt.js#L222) Create a product in the platform
+- [`getProducts`](src/api/mgmt.js#246) Get all products in the platform
+- [`getProduct`](src/api/mgmt.js#255) Get a specific product in the platform
 
 ## Exposure API
 
