@@ -60,12 +60,10 @@ const performPurchase = async ({ url, bearerToken, assetId }) => {
     },
     ...(assetId && { body: JSON.stringify({ assetId }) }),
   };
-  console.log(url);
-  console.log(conf);
+
   let response = await fetch(url, conf);
   let json = await response.json();
   if (response.ok) {
-    console.log(json);
     return json;
   } else {
     throw json.message;
