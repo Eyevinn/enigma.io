@@ -51,11 +51,17 @@ const setLabels = async ({ url, bearerToken, keyValueLabel }) => {
   }
 };
 
-const performPurchase = async ({ url, bearerToken }) => {
-  let response = await fetch(url, {
+const performPurchase = async ({ url, bearerToken, assetId }) => {
+  const conf = {
     method: "POST",
-    headers: { Authorization: `Basic ${bearerToken}` },
-  });
+    headers: {
+      ...(assetId && { "Content-Type": "application/json" }),
+      Authorization: `Basic ${bearerToken}`,
+    },
+    ...(assetId && { body: JSON.stringify({ assetId }) }),
+  };
+
+  let response = await fetch(url, conf);
   let json = await response.json();
   if (response.ok) {
     return json;

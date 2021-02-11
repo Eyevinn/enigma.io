@@ -137,12 +137,13 @@ class EnigmaManagementAPI extends BaseApi {
     });
   }
 
-  async performPurchase(accountId, offeringId) {
+  async performPurchase(accountId, offeringId, assetId) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     const url = `${this.baseUrl}/v2/customer/${this.customerUnit}/businessunit/${this.businessUnit}/enduseraccount/account/${accountId}/purchase/${offeringId}`;
     return await productOfferingsService.performPurchase({
       url,
       bearerToken: this.bearerToken,
+      ...(assetId && { assetId }),
     });
   }
 
