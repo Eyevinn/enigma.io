@@ -207,11 +207,18 @@ class EnigmaManagementAPI extends BaseApi {
     });
   }
 
-  async unpublishAsset(assetId, publicationId = undefined) {
+  async unpublishAsset(
+    assetId,
+    publicationId = undefined,
+    assetOnCustomerLevel = false
+  ) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     let url = `${this.baseUrl}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/asset/${assetId}/publication`;
     if (publicationId) {
       url += `/${publicationId}`;
+    }
+    if (assetOnCustomerLevel) {
+      url += "?level=CUSTOMER";
     }
     return await ingestService.unpublishAsset({
       url,
