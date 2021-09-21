@@ -61,7 +61,7 @@ class ExposureAPI extends BaseApi {
     const url = `${this.baseUrl.replace("v2", "v1")}/customer/${
       this.customerUnit
     }/businessunit/${this.businessUnit}/content/asset/${assetId}`;
-    return await assetService.getAsset(url);
+    return await assetService.getAsset(`${url}?onlyPublished=false`);
   }
 
   async resolveSerie(serieId) {
