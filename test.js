@@ -1,7 +1,8 @@
+require("dotenv-vars");
+
 const EnigmaIO = require("./index");
 const mgmtApi = new EnigmaIO.ManagementAPI("Eyevinn", "STSWE");
-const exposureApi = new EnigmaIO.ExposureAPI("Eyevinn", "STSWE");
-require("dotenv-vars");
+const exposureApi = new EnigmaIO.ExposureAPI(("Eyevinn", "STSWE"));
 
 async function go() {
   const endUsers = await mgmtApi.getEndUsers();
