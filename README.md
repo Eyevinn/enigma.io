@@ -8,7 +8,17 @@ npm install @eyevinn/enigma.io
 
 ## Authentication
 
-Provide API key ID and secret with the environment variables `API_KEY_ID` and `API_KEY_SECRET`.
+Provide API key ID and secret with the environment variables `API_KEY_ID` and `API_KEY_SECRET`. 
+
+Your key and secret can also be set when initiating the ManagementApi, like so:
+
+```js
+const managementApi = new EnigmaIO.ManagementAPI("Customer", "BusinessUnit", { 
+  API_KEY_ID: "Your API KEY ID",
+  API_KEY_SECRET: "Your API KEY SECRET"
+});
+```
+If omitted when created a new class, the managementAPI will look for environment variables.
 
 ## Management API
 
