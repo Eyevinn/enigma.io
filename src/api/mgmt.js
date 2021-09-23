@@ -25,13 +25,8 @@ class EnigmaManagementAPI extends BaseApi {
         ? MGMT_API_ENDPOINT_STAGE
         : MGMT_API_ENDPOINT_PROD;
 
-    const apiKeyId = options.API_KEY_ID
-      ? options.API_KEY_ID
-      : process.env.API_KEY_ID;
-
-    const apiKeySecret = options.API_KEY_SECRET
-      ? options.API_KEY_SECRET
-      : process.env.API_KEY_SECRET;
+    const apiKeyId = options.API_KEY_ID || process.env.API_KEY_ID;
+    const apiKeySecret = options.API_KEY_SECRET || process.env.API_KEY_SECRET;
 
     super(url);
     this.customerUnit = customerUnit;
