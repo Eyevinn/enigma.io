@@ -14,7 +14,6 @@ const MGMT_API_ENDPOINT_STAGE =
 
 class EnigmaManagementAPI extends BaseApi {
   constructor(customerUnit, businessUnit, options) {
-    debug("API_KEY_ID=%s, API_KEY_SECRET=*****", process.env.API_KEY_ID);
     options = {
       environment: "production",
       ...options,
@@ -27,6 +26,7 @@ class EnigmaManagementAPI extends BaseApi {
 
     const apiKeyId = options.API_KEY_ID || process.env.API_KEY_ID;
     const apiKeySecret = options.API_KEY_SECRET || process.env.API_KEY_SECRET;
+    debug("API_KEY_ID=%s, API_KEY_SECRET=*****", apiKeyId);
 
     super(url);
     this.customerUnit = customerUnit;
