@@ -11,20 +11,23 @@ const BaseApi = require("../utils/baseApi");
 const MGMT_API_ENDPOINT_PROD = "https://managementapi.emp.ebsd.ericsson.net";
 const MGMT_API_ENDPOINT_STAGE =
   "https://psempempmanagementapi.ebsd.ericsson.net";
-const apiKeyId = process.env.API_KEY_ID;
-const apiKeySecret = process.env.API_KEY_SECRET;
 
 class EnigmaManagementAPI extends BaseApi {
   constructor(customerUnit, businessUnit, options) {
-    debug("API_KEY_ID=%s, API_KEY_SECRET=*****", apiKeyId);
     options = {
       environment: "production",
       ...options,
     };
+
     const url =
       options.environment === "stage"
         ? MGMT_API_ENDPOINT_STAGE
         : MGMT_API_ENDPOINT_PROD;
+
+    const apiKeyId = options.API_KEY_ID || process.env.API_KEY_ID;
+    const apiKeySecret = options.API_KEY_SECRET || process.env.API_KEY_SECRET;
+    debug("API_KEY_ID=%s, API_KEY_SECRET=*****", apiKeyId);
+
     super(url);
     this.customerUnit = customerUnit;
     this.businessUnit = businessUnit;
