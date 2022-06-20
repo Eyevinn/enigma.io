@@ -1,7 +1,7 @@
 //const debug = require("debug")("mgmt");
 
 const EXPOSURE_API_ENDPOINT_PROD =
-  "https://exposureapi.emp.ebsd.ericsson.net/v2";
+  "https://exposure.api.redbee.live/v2";
 const EXPOSURE_API_ENDPOINT_STAGE =
   "https://psempexposureapi.ebsd.ericsson.net/v2";
 const authService = require("../services/authService");
