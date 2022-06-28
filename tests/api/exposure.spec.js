@@ -7,7 +7,7 @@ describe("Exposure api", () => {
       environment: "stage",
     });
     expect(ProdExposureApi.baseUrl).toBe(
-      "https://exposureapi.emp.ebsd.ericsson.net/v2"
+      "https://exposure.api.redbee.live/v2"
     );
     expect(StageExposureApi.baseUrl).toBe(
       "https://psempexposureapi.ebsd.ericsson.net/v2"
