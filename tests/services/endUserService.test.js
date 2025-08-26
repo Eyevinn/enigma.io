@@ -1,7 +1,7 @@
 const endUserService = require("../../src/services/endUserService");
 const base64 = require("base-64");
 
-const MGMT_API_ENDPOINT = "https://managementapi.emp.ebsd.ericsson.net/v2";
+const MGMT_API_ENDPOINT = "https://management.api.redbee.live/v2";
 const customerUnit = "Eyevinn";
 const businessUnit = "STSWE";
 const apiKeyId = process.env.API_KEY_ID;

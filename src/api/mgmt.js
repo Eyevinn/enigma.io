@@ -8,7 +8,7 @@ const productsService = require("../services/productsService");
 
 const BaseApi = require("../utils/baseApi");
 
-const MGMT_API_ENDPOINT_PROD = "https://managementapi.emp.ebsd.ericsson.net";
+const MGMT_API_ENDPOINT_PROD = "https://management.api.redbee.live";
 const MGMT_API_ENDPOINT_STAGE =
   "https://psempempmanagementapi.ebsd.ericsson.net";
 
@@ -196,7 +196,7 @@ class EnigmaManagementAPI extends BaseApi {
     assetId,
     productId,
     startDate = new Date(),
-    publicationDurationInYears = 1
+    publicationDurationInYears = 1,
   ) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     const url = `${this.baseUrl}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/publication`;
@@ -213,7 +213,7 @@ class EnigmaManagementAPI extends BaseApi {
   async unpublishAsset(
     assetId,
     publicationId = undefined,
-    assetOnCustomerLevel = false
+    assetOnCustomerLevel = false,
   ) {
     if (!this.bearerToken || !this.customerUnit || !this.businessUnit) return;
     let url = `${this.baseUrl}/v1/customer/${this.customerUnit}/businessunit/${this.businessUnit}/asset/${assetId}/publication`;
@@ -234,7 +234,7 @@ class EnigmaManagementAPI extends BaseApi {
     name,
     description = "",
     anonymousAllowed = false,
-    entitlementRequired = true
+    entitlementRequired = true,
   ) {
     const product = {
       id,
